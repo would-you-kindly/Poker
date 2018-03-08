@@ -71,6 +71,12 @@ namespace Client
             lblPlayer4Rate.BackColor = Color.Transparent;
             lblPlayer5Rate.BackColor = Color.Transparent;
             lblPlayer6Rate.BackColor = Color.Transparent;
+
+            // Включаем прозрачный фон у label мин. и макс. ставок
+            //tbRate.Controls.Add(lblMinRaise);
+            //tbRate.Controls.Add(lblMaxRaise);
+            //lblMinRaise.BackColor = Color.Transparent;
+            //lblMaxRaise.BackColor = Color.Transparent;
         }
 
         private void InitPictureBoxes()

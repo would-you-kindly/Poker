@@ -88,6 +88,8 @@ namespace Client
             this.lblPlayer4Rate = new System.Windows.Forms.Label();
             this.lblPlayer5Rate = new System.Windows.Forms.Label();
             this.lblPlayer6Rate = new System.Windows.Forms.Label();
+            this.lblMinRaise = new System.Windows.Forms.Label();
+            this.lblMaxRaise = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pbTable)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbCarpet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbRate)).BeginInit();
@@ -696,11 +698,39 @@ namespace Client
             this.lblPlayer6Rate.TabIndex = 29;
             this.lblPlayer6Rate.Text = "0";
             // 
+            // lblMinRaise
+            // 
+            this.lblMinRaise.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblMinRaise.AutoSize = true;
+            this.lblMinRaise.BackColor = System.Drawing.Color.DarkRed;
+            this.lblMinRaise.Font = new System.Drawing.Font("Palatino Linotype", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblMinRaise.ForeColor = System.Drawing.Color.White;
+            this.lblMinRaise.Location = new System.Drawing.Point(467, 488);
+            this.lblMinRaise.Name = "lblMinRaise";
+            this.lblMinRaise.Size = new System.Drawing.Size(15, 18);
+            this.lblMinRaise.TabIndex = 30;
+            this.lblMinRaise.Text = "0";
+            // 
+            // lblMaxRaise
+            // 
+            this.lblMaxRaise.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.lblMaxRaise.BackColor = System.Drawing.Color.DarkRed;
+            this.lblMaxRaise.Font = new System.Drawing.Font("Palatino Linotype", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblMaxRaise.ForeColor = System.Drawing.Color.White;
+            this.lblMaxRaise.Location = new System.Drawing.Point(588, 488);
+            this.lblMaxRaise.Name = "lblMaxRaise";
+            this.lblMaxRaise.Size = new System.Drawing.Size(115, 18);
+            this.lblMaxRaise.TabIndex = 30;
+            this.lblMaxRaise.Text = "0";
+            this.lblMaxRaise.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // PokerClientForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(720, 582);
+            this.Controls.Add(this.lblMaxRaise);
+            this.Controls.Add(this.lblMinRaise);
             this.Controls.Add(this.lblPlayer6Rate);
             this.Controls.Add(this.lblPlayer5Rate);
             this.Controls.Add(this.lblPlayer4Rate);
@@ -860,6 +890,8 @@ namespace Client
         private Label lblPlayer4Rate;
         private Label lblPlayer5Rate;
         private Label lblPlayer6Rate;
+        private Label lblMinRaise;
+        private Label lblMaxRaise;
     }
 }
 
