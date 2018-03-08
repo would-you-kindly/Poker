@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Model;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,12 +13,21 @@ namespace Client
 {
     public partial class PokerClientForm : Form
     {
+        Player player;
+
         public PokerClientForm()
         {
             InitializeComponent();
 
             InitPictureBoxes();
             InitControls();
+
+            StartGame();
+        }
+
+        private void StartGame()
+        {
+            player = new Player();
         }
 
         private void InitControls()
@@ -72,11 +82,9 @@ namespace Client
             lblPlayer5Rate.BackColor = Color.Transparent;
             lblPlayer6Rate.BackColor = Color.Transparent;
 
-            // Включаем прозрачный фон у label мин. и макс. ставок
-            //tbRate.Controls.Add(lblMinRaise);
-            //tbRate.Controls.Add(lblMaxRaise);
-            //lblMinRaise.BackColor = Color.Transparent;
-            //lblMaxRaise.BackColor = Color.Transparent;
+            // Включаем прозрачный фон у label банка
+            pbTable.Controls.Add(lblBank);
+            lblBank.BackColor = Color.Transparent;
         }
 
         private void InitPictureBoxes()

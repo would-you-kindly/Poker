@@ -90,6 +90,7 @@ namespace Client
             this.lblPlayer6Rate = new System.Windows.Forms.Label();
             this.lblMinRaise = new System.Windows.Forms.Label();
             this.lblMaxRaise = new System.Windows.Forms.Label();
+            this.lblBank = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pbTable)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbCarpet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbRate)).BeginInit();
@@ -724,11 +725,23 @@ namespace Client
             this.lblMaxRaise.Text = "0";
             this.lblMaxRaise.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // lblBank
+            // 
+            this.lblBank.AutoSize = true;
+            this.lblBank.Font = new System.Drawing.Font("Palatino Linotype", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblBank.ForeColor = System.Drawing.Color.White;
+            this.lblBank.Location = new System.Drawing.Point(520, 221);
+            this.lblBank.Name = "lblBank";
+            this.lblBank.Size = new System.Drawing.Size(47, 18);
+            this.lblBank.TabIndex = 31;
+            this.lblBank.Text = "Банк: ";
+            // 
             // PokerClientForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(720, 582);
+            this.Controls.Add(this.lblBank);
             this.Controls.Add(this.lblMaxRaise);
             this.Controls.Add(this.lblMinRaise);
             this.Controls.Add(this.lblPlayer6Rate);
@@ -892,6 +905,7 @@ namespace Client
         private Label lblPlayer6Rate;
         private Label lblMinRaise;
         private Label lblMaxRaise;
+        private Label lblBank;
     }
 }
 
