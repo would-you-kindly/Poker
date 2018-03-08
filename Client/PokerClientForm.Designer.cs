@@ -146,7 +146,7 @@ namespace Client
             // 
             this.btnRaise.BackColor = System.Drawing.Color.Maroon;
             this.btnRaise.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnRaise.Font = new System.Drawing.Font("Palatino Linotype", 24F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnRaise.Font = new System.Drawing.Font("Palatino Linotype", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnRaise.ForeColor = System.Drawing.SystemColors.Info;
             this.btnRaise.Location = new System.Drawing.Point(588, 517);
             this.btnRaise.Name = "btnRaise";
@@ -180,20 +180,20 @@ namespace Client
             // 
             this.btnCallCheck.BackColor = System.Drawing.Color.Maroon;
             this.btnCallCheck.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnCallCheck.Font = new System.Drawing.Font("Palatino Linotype", 24F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnCallCheck.Font = new System.Drawing.Font("Palatino Linotype", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnCallCheck.ForeColor = System.Drawing.SystemColors.Info;
             this.btnCallCheck.Location = new System.Drawing.Point(462, 517);
             this.btnCallCheck.Name = "btnCallCheck";
             this.btnCallCheck.Size = new System.Drawing.Size(120, 53);
             this.btnCallCheck.TabIndex = 6;
-            this.btnCallCheck.Text = "Check";
+            this.btnCallCheck.Text = "Check\r\n";
             this.btnCallCheck.UseVisualStyleBackColor = false;
             // 
             // btnFold
             // 
             this.btnFold.BackColor = System.Drawing.Color.Maroon;
             this.btnFold.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnFold.Font = new System.Drawing.Font("Palatino Linotype", 24F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnFold.Font = new System.Drawing.Font("Palatino Linotype", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnFold.ForeColor = System.Drawing.SystemColors.Info;
             this.btnFold.Location = new System.Drawing.Point(336, 517);
             this.btnFold.Name = "btnFold";

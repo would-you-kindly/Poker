@@ -136,6 +136,12 @@
     <Content Include="Images\Cards\Spades\Qs.png" />
     <Content Include="Images\Carpet.png" />
     <Content Include="Images\Diller.png" />
+    <Content Include="Images\Players\Player1.png" />
+    <Content Include="Images\Players\Player2.png" />
+    <Content Include="Images\Players\Player3.png" />
+    <Content Include="Images\Players\Player4.png" />
+    <Content Include="Images\Players\Player5.png" />
+    <Content Include="Images\Players\Player6.png" />
     <Content Include="Images\Poker.ico" />
     <Content Include="Images\Table.png" />
     <Content Include="Images\_other_\buryy-fon.jpg" />
