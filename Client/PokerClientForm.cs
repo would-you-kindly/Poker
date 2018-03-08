@@ -24,7 +24,7 @@ namespace Client
         {
             rtbRate.SelectionAlignment = HorizontalAlignment.Center;
 
-            // Включаем прозрачный фон у label
+            // Включаем прозрачный фон у label игроков
             pbTable.Controls.Add(lblPlayer1Money);
             pbTable.Controls.Add(lblPlayer2Money);
             pbTable.Controls.Add(lblPlayer3Money);
@@ -49,11 +49,19 @@ namespace Client
             lblPlayer4Name.BackColor = Color.Transparent;
             lblPlayer5Name.BackColor = Color.Transparent;
             lblPlayer6Name.BackColor = Color.Transparent;
+
+            // Включаем прозрачный фон у label информации
+            pbTable.Controls.Add(lblTimeToTurn);
+            pbTable.Controls.Add(lblPlace);
+            pbTable.Controls.Add(lblMaxCombination);
+            lblTimeToTurn.BackColor = Color.Transparent;
+            lblPlace.BackColor = Color.Transparent;
+            lblMaxCombination.BackColor = Color.Transparent;
         }
 
         private void InitPictureBoxes()
         {
-            // Включаем прозрачный фон у карт
+            // Включаем прозрачный фон у карт на раздаче
             pbTable.Controls.Add(pbFlop1);
             pbTable.Controls.Add(pbFlop2);
             pbTable.Controls.Add(pbFlop3);
@@ -64,6 +72,33 @@ namespace Client
             pbFlop3.BackColor = Color.Transparent;
             pbTurn.BackColor = Color.Transparent;
             pbRiver.BackColor = Color.Transparent;
+
+            // Включаем прозрачный фон у карт игроков
+            pbTable.Controls.Add(pbPlayer1Card1);
+            pbTable.Controls.Add(pbPlayer1Card2);
+            pbTable.Controls.Add(pbPlayer2Card1);
+            pbTable.Controls.Add(pbPlayer2Card2);
+            pbTable.Controls.Add(pbPlayer3Card1);
+            pbTable.Controls.Add(pbPlayer3Card2);
+            pbTable.Controls.Add(pbPlayer4Card1);
+            pbTable.Controls.Add(pbPlayer4Card2);
+            pbTable.Controls.Add(pbPlayer5Card1);
+            pbTable.Controls.Add(pbPlayer5Card2);
+            pbTable.Controls.Add(pbPlayer6Card1);
+            pbTable.Controls.Add(pbPlayer6Card2);
+            pbPlayer1Card1.BackColor = Color.Transparent;
+            pbPlayer1Card2.BackColor = Color.Transparent;
+            pbPlayer2Card1.BackColor = Color.Transparent;
+            pbPlayer2Card2.BackColor = Color.Transparent;
+            pbPlayer3Card1.BackColor = Color.Transparent;
+            pbPlayer3Card2.BackColor = Color.Transparent;
+            pbPlayer4Card1.BackColor = Color.Transparent;
+            pbPlayer4Card2.BackColor = Color.Transparent;
+            pbPlayer5Card1.BackColor = Color.Transparent;
+            pbPlayer5Card2.BackColor = Color.Transparent;
+            pbPlayer6Card1.BackColor = Color.Transparent;
+            pbPlayer6Card2.BackColor = Color.Transparent;
+
 
             // Включаем прозрачный фон у игроков
             pbTable.Controls.Add(pbPlayer1);

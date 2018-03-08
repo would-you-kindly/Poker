@@ -67,6 +67,21 @@ namespace Client
             this.pbPlayer4Diller = new System.Windows.Forms.PictureBox();
             this.pbPlayer5Diller = new System.Windows.Forms.PictureBox();
             this.pbPlayer6Diller = new System.Windows.Forms.PictureBox();
+            this.lblMaxCombination = new System.Windows.Forms.Label();
+            this.lblPlace = new System.Windows.Forms.Label();
+            this.lblTimeToTurn = new System.Windows.Forms.Label();
+            this.pbPlayer1Card1 = new System.Windows.Forms.PictureBox();
+            this.pbPlayer1Card2 = new System.Windows.Forms.PictureBox();
+            this.pbPlayer2Card1 = new System.Windows.Forms.PictureBox();
+            this.pbPlayer2Card2 = new System.Windows.Forms.PictureBox();
+            this.pbPlayer3Card1 = new System.Windows.Forms.PictureBox();
+            this.pbPlayer3Card2 = new System.Windows.Forms.PictureBox();
+            this.pbPlayer4Card1 = new System.Windows.Forms.PictureBox();
+            this.pbPlayer4Card2 = new System.Windows.Forms.PictureBox();
+            this.pbPlayer5Card1 = new System.Windows.Forms.PictureBox();
+            this.pbPlayer5Card2 = new System.Windows.Forms.PictureBox();
+            this.pbPlayer6Card1 = new System.Windows.Forms.PictureBox();
+            this.pbPlayer6Card2 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pbTable)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbCarpet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbRate)).BeginInit();
@@ -87,6 +102,18 @@ namespace Client
             ((System.ComponentModel.ISupportInitialize)(this.pbPlayer4Diller)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbPlayer5Diller)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbPlayer6Diller)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPlayer1Card1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPlayer1Card2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPlayer2Card1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPlayer2Card2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPlayer3Card1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPlayer3Card2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPlayer4Card1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPlayer4Card2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPlayer5Card1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPlayer5Card2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPlayer6Card1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPlayer6Card2)).BeginInit();
             this.SuspendLayout();
             // 
             // pbTable
@@ -129,7 +156,7 @@ namespace Client
             this.tbRate.Name = "tbRate";
             this.tbRate.Size = new System.Drawing.Size(246, 45);
             this.tbRate.TabIndex = 3;
-            this.tbRate.TickStyle = System.Windows.Forms.TickStyle.TopLeft;
+            this.tbRate.TickStyle = System.Windows.Forms.TickStyle.None;
             // 
             // rtbRate
             // 
@@ -454,11 +481,169 @@ namespace Client
             this.pbPlayer6Diller.TabIndex = 21;
             this.pbPlayer6Diller.TabStop = false;
             // 
+            // lblMaxCombination
+            // 
+            this.lblMaxCombination.AutoSize = true;
+            this.lblMaxCombination.Font = new System.Drawing.Font("Palatino Linotype", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblMaxCombination.ForeColor = System.Drawing.Color.White;
+            this.lblMaxCombination.Location = new System.Drawing.Point(12, 439);
+            this.lblMaxCombination.Name = "lblMaxCombination";
+            this.lblMaxCombination.Size = new System.Drawing.Size(97, 18);
+            this.lblMaxCombination.TabIndex = 22;
+            this.lblMaxCombination.Text = "Комбинация: ";
+            // 
+            // lblPlace
+            // 
+            this.lblPlace.AutoSize = true;
+            this.lblPlace.Font = new System.Drawing.Font("Palatino Linotype", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblPlace.ForeColor = System.Drawing.Color.White;
+            this.lblPlace.Location = new System.Drawing.Point(12, 421);
+            this.lblPlace.Name = "lblPlace";
+            this.lblPlace.Size = new System.Drawing.Size(56, 18);
+            this.lblPlace.TabIndex = 22;
+            this.lblPlace.Text = "Место: ";
+            // 
+            // lblTimeToTurn
+            // 
+            this.lblTimeToTurn.AutoSize = true;
+            this.lblTimeToTurn.Font = new System.Drawing.Font("Palatino Linotype", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblTimeToTurn.ForeColor = System.Drawing.Color.White;
+            this.lblTimeToTurn.Location = new System.Drawing.Point(12, 403);
+            this.lblTimeToTurn.Name = "lblTimeToTurn";
+            this.lblTimeToTurn.Size = new System.Drawing.Size(99, 18);
+            this.lblTimeToTurn.TabIndex = 22;
+            this.lblTimeToTurn.Text = "Время на ход: ";
+            // 
+            // pbPlayer1Card1
+            // 
+            this.pbPlayer1Card1.Image = ((System.Drawing.Image)(resources.GetObject("pbPlayer1Card1.Image")));
+            this.pbPlayer1Card1.Location = new System.Drawing.Point(212, 31);
+            this.pbPlayer1Card1.Name = "pbPlayer1Card1";
+            this.pbPlayer1Card1.Size = new System.Drawing.Size(44, 64);
+            this.pbPlayer1Card1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbPlayer1Card1.TabIndex = 23;
+            this.pbPlayer1Card1.TabStop = false;
+            // 
+            // pbPlayer1Card2
+            // 
+            this.pbPlayer1Card2.Image = ((System.Drawing.Image)(resources.GetObject("pbPlayer1Card2.Image")));
+            this.pbPlayer1Card2.Location = new System.Drawing.Point(262, 31);
+            this.pbPlayer1Card2.Name = "pbPlayer1Card2";
+            this.pbPlayer1Card2.Size = new System.Drawing.Size(44, 64);
+            this.pbPlayer1Card2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbPlayer1Card2.TabIndex = 23;
+            this.pbPlayer1Card2.TabStop = false;
+            // 
+            // pbPlayer2Card1
+            // 
+            this.pbPlayer2Card1.Location = new System.Drawing.Point(340, 31);
+            this.pbPlayer2Card1.Name = "pbPlayer2Card1";
+            this.pbPlayer2Card1.Size = new System.Drawing.Size(44, 64);
+            this.pbPlayer2Card1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbPlayer2Card1.TabIndex = 23;
+            this.pbPlayer2Card1.TabStop = false;
+            // 
+            // pbPlayer2Card2
+            // 
+            this.pbPlayer2Card2.Location = new System.Drawing.Point(390, 31);
+            this.pbPlayer2Card2.Name = "pbPlayer2Card2";
+            this.pbPlayer2Card2.Size = new System.Drawing.Size(44, 64);
+            this.pbPlayer2Card2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbPlayer2Card2.TabIndex = 23;
+            this.pbPlayer2Card2.TabStop = false;
+            // 
+            // pbPlayer3Card1
+            // 
+            this.pbPlayer3Card1.Location = new System.Drawing.Point(467, 31);
+            this.pbPlayer3Card1.Name = "pbPlayer3Card1";
+            this.pbPlayer3Card1.Size = new System.Drawing.Size(44, 64);
+            this.pbPlayer3Card1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbPlayer3Card1.TabIndex = 23;
+            this.pbPlayer3Card1.TabStop = false;
+            // 
+            // pbPlayer3Card2
+            // 
+            this.pbPlayer3Card2.Location = new System.Drawing.Point(517, 31);
+            this.pbPlayer3Card2.Name = "pbPlayer3Card2";
+            this.pbPlayer3Card2.Size = new System.Drawing.Size(44, 64);
+            this.pbPlayer3Card2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbPlayer3Card2.TabIndex = 23;
+            this.pbPlayer3Card2.TabStop = false;
+            // 
+            // pbPlayer4Card1
+            // 
+            this.pbPlayer4Card1.Location = new System.Drawing.Point(467, 365);
+            this.pbPlayer4Card1.Name = "pbPlayer4Card1";
+            this.pbPlayer4Card1.Size = new System.Drawing.Size(44, 64);
+            this.pbPlayer4Card1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbPlayer4Card1.TabIndex = 23;
+            this.pbPlayer4Card1.TabStop = false;
+            // 
+            // pbPlayer4Card2
+            // 
+            this.pbPlayer4Card2.Location = new System.Drawing.Point(517, 365);
+            this.pbPlayer4Card2.Name = "pbPlayer4Card2";
+            this.pbPlayer4Card2.Size = new System.Drawing.Size(44, 64);
+            this.pbPlayer4Card2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbPlayer4Card2.TabIndex = 23;
+            this.pbPlayer4Card2.TabStop = false;
+            // 
+            // pbPlayer5Card1
+            // 
+            this.pbPlayer5Card1.Location = new System.Drawing.Point(338, 365);
+            this.pbPlayer5Card1.Name = "pbPlayer5Card1";
+            this.pbPlayer5Card1.Size = new System.Drawing.Size(44, 64);
+            this.pbPlayer5Card1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbPlayer5Card1.TabIndex = 23;
+            this.pbPlayer5Card1.TabStop = false;
+            // 
+            // pbPlayer5Card2
+            // 
+            this.pbPlayer5Card2.Location = new System.Drawing.Point(388, 365);
+            this.pbPlayer5Card2.Name = "pbPlayer5Card2";
+            this.pbPlayer5Card2.Size = new System.Drawing.Size(44, 64);
+            this.pbPlayer5Card2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbPlayer5Card2.TabIndex = 23;
+            this.pbPlayer5Card2.TabStop = false;
+            // 
+            // pbPlayer6Card1
+            // 
+            this.pbPlayer6Card1.Location = new System.Drawing.Point(212, 365);
+            this.pbPlayer6Card1.Name = "pbPlayer6Card1";
+            this.pbPlayer6Card1.Size = new System.Drawing.Size(44, 64);
+            this.pbPlayer6Card1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbPlayer6Card1.TabIndex = 23;
+            this.pbPlayer6Card1.TabStop = false;
+            // 
+            // pbPlayer6Card2
+            // 
+            this.pbPlayer6Card2.Location = new System.Drawing.Point(262, 365);
+            this.pbPlayer6Card2.Name = "pbPlayer6Card2";
+            this.pbPlayer6Card2.Size = new System.Drawing.Size(44, 64);
+            this.pbPlayer6Card2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbPlayer6Card2.TabIndex = 23;
+            this.pbPlayer6Card2.TabStop = false;
+            // 
             // PokerClientForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(720, 582);
+            this.Controls.Add(this.pbPlayer6Card2);
+            this.Controls.Add(this.pbPlayer5Card2);
+            this.Controls.Add(this.pbPlayer4Card2);
+            this.Controls.Add(this.pbPlayer3Card2);
+            this.Controls.Add(this.pbPlayer2Card2);
+            this.Controls.Add(this.pbPlayer6Card1);
+            this.Controls.Add(this.pbPlayer5Card1);
+            this.Controls.Add(this.pbPlayer4Card1);
+            this.Controls.Add(this.pbPlayer3Card1);
+            this.Controls.Add(this.pbPlayer2Card1);
+            this.Controls.Add(this.pbPlayer1Card2);
+            this.Controls.Add(this.pbPlayer1Card1);
+            this.Controls.Add(this.lblTimeToTurn);
+            this.Controls.Add(this.lblPlace);
+            this.Controls.Add(this.lblMaxCombination);
             this.Controls.Add(this.pbPlayer6Diller);
             this.Controls.Add(this.pbPlayer5Diller);
             this.Controls.Add(this.pbPlayer4Diller);
@@ -520,6 +705,18 @@ namespace Client
             ((System.ComponentModel.ISupportInitialize)(this.pbPlayer4Diller)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbPlayer5Diller)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbPlayer6Diller)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPlayer1Card1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPlayer1Card2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPlayer2Card1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPlayer2Card2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPlayer3Card1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPlayer3Card2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPlayer4Card1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPlayer4Card2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPlayer5Card1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPlayer5Card2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPlayer6Card1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPlayer6Card2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -563,6 +760,21 @@ namespace Client
         private PictureBox pbPlayer4Diller;
         private PictureBox pbPlayer5Diller;
         private PictureBox pbPlayer6Diller;
+        private Label lblMaxCombination;
+        private Label lblPlace;
+        private Label lblTimeToTurn;
+        private PictureBox pbPlayer1Card1;
+        private PictureBox pbPlayer1Card2;
+        private PictureBox pbPlayer2Card1;
+        private PictureBox pbPlayer2Card2;
+        private PictureBox pbPlayer3Card1;
+        private PictureBox pbPlayer3Card2;
+        private PictureBox pbPlayer4Card1;
+        private PictureBox pbPlayer4Card2;
+        private PictureBox pbPlayer5Card1;
+        private PictureBox pbPlayer5Card2;
+        private PictureBox pbPlayer6Card1;
+        private PictureBox pbPlayer6Card2;
     }
 }
 
