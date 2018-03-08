@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2C8A9AF1-E37C-42DD-9D4F-E8ED3E1A9123}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Client</RootNamespace>
+    <AssemblyName>Client</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="PokerClientForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PokerClientForm.Designer.cs">
+      <DependentUpon>PokerClientForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="PokerClientForm.resx">
+      <DependentUpon>PokerClientForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="Images\_other_\buryy-fon.psd" />
+    <None Include="Images\_other_\YqKZ9.psd" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\Cards\Back.png" />
+    <Content Include="Images\Cards\Clubs\10c.png" />
+    <Content Include="Images\Cards\Clubs\2c.png" />
+    <Content Include="Images\Cards\Clubs\3c.png" />
+    <Content Include="Images\Cards\Clubs\4c.png" />
+    <Content Include="Images\Cards\Clubs\5c.png" />
+    <Content Include="Images\Cards\Clubs\6c.png" />
+    <Content Include="Images\Cards\Clubs\7c.png" />
+    <Content Include="Images\Cards\Clubs\8c.png" />
+    <Content Include="Images\Cards\Clubs\9c.png" />
+    <Content Include="Images\Cards\Clubs\Ac.png" />
+    <Content Include="Images\Cards\Clubs\Jc.png" />
+    <Content Include="Images\Cards\Clubs\Kc.png" />
+    <Content Include="Images\Cards\Clubs\Qc.png" />
+    <Content Include="Images\Cards\Diamonds\10d.png" />
+    <Content Include="Images\Cards\Diamonds\2d.png" />
+    <Content Include="Images\Cards\Diamonds\3d.png" />
+    <Content Include="Images\Cards\Diamonds\4d.png" />
+    <Content Include="Images\Cards\Diamonds\5d.png" />
+    <Content Include="Images\Cards\Diamonds\6d.png" />
+    <Content Include="Images\Cards\Diamonds\7d.png" />
+    <Content Include="Images\Cards\Diamonds\8d.png" />
+    <Content Include="Images\Cards\Diamonds\9d.png" />
+    <Content Include="Images\Cards\Diamonds\Ad.png" />
+    <Content Include="Images\Cards\Diamonds\Jd.png" />
+    <Content Include="Images\Cards\Diamonds\Kd.png" />
+    <Content Include="Images\Cards\Diamonds\Qd.png" />
+    <Content Include="Images\Cards\Hearts\10h.png" />
+    <Content Include="Images\Cards\Hearts\2h.png" />
+    <Content Include="Images\Cards\Hearts\3h.png" />
+    <Content Include="Images\Cards\Hearts\4h.png" />
+    <Content Include="Images\Cards\Hearts\5h.png" />
+    <Content Include="Images\Cards\Hearts\6h.png" />
+    <Content Include="Images\Cards\Hearts\7h.png" />
+    <Content Include="Images\Cards\Hearts\8h.png" />
+    <Content Include="Images\Cards\Hearts\9h.png" />
+    <Content Include="Images\Cards\Hearts\Ah.png" />
+    <Content Include="Images\Cards\Hearts\Jh.png" />
+    <Content Include="Images\Cards\Hearts\Kh.png" />
+    <Content Include="Images\Cards\Hearts\Qh.png" />
+    <Content Include="Images\Cards\Spades\10s.png" />
+    <Content Include="Images\Cards\Spades\2s.png" />
+    <Content Include="Images\Cards\Spades\3s.png" />
+    <Content Include="Images\Cards\Spades\4s.png" />
+    <Content Include="Images\Cards\Spades\5s.png" />
+    <Content Include="Images\Cards\Spades\6s.png" />
+    <Content Include="Images\Cards\Spades\7s.png" />
+    <Content Include="Images\Cards\Spades\8s.png" />
+    <Content Include="Images\Cards\Spades\9s.png" />
+    <Content Include="Images\Cards\Spades\As.png" />
+    <Content Include="Images\Cards\Spades\Js.png" />
+    <Content Include="Images\Cards\Spades\Ks.png" />
+    <Content Include="Images\Cards\Spades\Qs.png" />
+    <Content Include="Images\Carpet.png" />
+    <Content Include="Images\Diller.png" />
+    <Content Include="Images\Table.png" />
+    <Content Include="Images\_other_\buryy-fon.jpg" />
+    <Content Include="Images\_other_\poker-table.png" />
+    <Content Include="Images\_other_\YqKZ9.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
