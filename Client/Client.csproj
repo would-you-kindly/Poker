@@ -136,6 +136,7 @@
     <Content Include="Images\Cards\Spades\Qs.png" />
     <Content Include="Images\Carpet.png" />
     <Content Include="Images\Diller.png" />
+    <Content Include="Images\Poker.ico" />
     <Content Include="Images\Table.png" />
     <Content Include="Images\_other_\buryy-fon.jpg" />
     <Content Include="Images\_other_\poker-table.png" />

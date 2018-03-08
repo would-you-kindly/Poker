@@ -82,6 +82,12 @@ namespace Client
             this.pbPlayer5Card2 = new System.Windows.Forms.PictureBox();
             this.pbPlayer6Card1 = new System.Windows.Forms.PictureBox();
             this.pbPlayer6Card2 = new System.Windows.Forms.PictureBox();
+            this.lblPlayer1Rate = new System.Windows.Forms.Label();
+            this.lblPlayer2Rate = new System.Windows.Forms.Label();
+            this.lblPlayer3Rate = new System.Windows.Forms.Label();
+            this.lblPlayer4Rate = new System.Windows.Forms.Label();
+            this.lblPlayer5Rate = new System.Windows.Forms.Label();
+            this.lblPlayer6Rate = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pbTable)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbCarpet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbRate)).BeginInit();
@@ -624,11 +630,83 @@ namespace Client
             this.pbPlayer6Card2.TabIndex = 23;
             this.pbPlayer6Card2.TabStop = false;
             // 
+            // lblPlayer1Rate
+            // 
+            this.lblPlayer1Rate.AutoSize = true;
+            this.lblPlayer1Rate.Font = new System.Drawing.Font("Palatino Linotype", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblPlayer1Rate.ForeColor = System.Drawing.Color.White;
+            this.lblPlayer1Rate.Location = new System.Drawing.Point(258, 124);
+            this.lblPlayer1Rate.Name = "lblPlayer1Rate";
+            this.lblPlayer1Rate.Size = new System.Drawing.Size(15, 18);
+            this.lblPlayer1Rate.TabIndex = 24;
+            this.lblPlayer1Rate.Text = "0";
+            // 
+            // lblPlayer2Rate
+            // 
+            this.lblPlayer2Rate.AutoSize = true;
+            this.lblPlayer2Rate.Font = new System.Drawing.Font("Palatino Linotype", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblPlayer2Rate.ForeColor = System.Drawing.Color.White;
+            this.lblPlayer2Rate.Location = new System.Drawing.Point(386, 124);
+            this.lblPlayer2Rate.Name = "lblPlayer2Rate";
+            this.lblPlayer2Rate.Size = new System.Drawing.Size(15, 18);
+            this.lblPlayer2Rate.TabIndex = 25;
+            this.lblPlayer2Rate.Text = "0";
+            // 
+            // lblPlayer3Rate
+            // 
+            this.lblPlayer3Rate.AutoSize = true;
+            this.lblPlayer3Rate.Font = new System.Drawing.Font("Palatino Linotype", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblPlayer3Rate.ForeColor = System.Drawing.Color.White;
+            this.lblPlayer3Rate.Location = new System.Drawing.Point(513, 124);
+            this.lblPlayer3Rate.Name = "lblPlayer3Rate";
+            this.lblPlayer3Rate.Size = new System.Drawing.Size(15, 18);
+            this.lblPlayer3Rate.TabIndex = 26;
+            this.lblPlayer3Rate.Text = "0";
+            // 
+            // lblPlayer4Rate
+            // 
+            this.lblPlayer4Rate.AutoSize = true;
+            this.lblPlayer4Rate.Font = new System.Drawing.Font("Palatino Linotype", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblPlayer4Rate.ForeColor = System.Drawing.Color.White;
+            this.lblPlayer4Rate.Location = new System.Drawing.Point(513, 319);
+            this.lblPlayer4Rate.Name = "lblPlayer4Rate";
+            this.lblPlayer4Rate.Size = new System.Drawing.Size(15, 18);
+            this.lblPlayer4Rate.TabIndex = 27;
+            this.lblPlayer4Rate.Text = "0";
+            // 
+            // lblPlayer5Rate
+            // 
+            this.lblPlayer5Rate.AutoSize = true;
+            this.lblPlayer5Rate.Font = new System.Drawing.Font("Palatino Linotype", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblPlayer5Rate.ForeColor = System.Drawing.Color.White;
+            this.lblPlayer5Rate.Location = new System.Drawing.Point(384, 319);
+            this.lblPlayer5Rate.Name = "lblPlayer5Rate";
+            this.lblPlayer5Rate.Size = new System.Drawing.Size(15, 18);
+            this.lblPlayer5Rate.TabIndex = 28;
+            this.lblPlayer5Rate.Text = "0";
+            // 
+            // lblPlayer6Rate
+            // 
+            this.lblPlayer6Rate.AutoSize = true;
+            this.lblPlayer6Rate.Font = new System.Drawing.Font("Palatino Linotype", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblPlayer6Rate.ForeColor = System.Drawing.Color.White;
+            this.lblPlayer6Rate.Location = new System.Drawing.Point(258, 319);
+            this.lblPlayer6Rate.Name = "lblPlayer6Rate";
+            this.lblPlayer6Rate.Size = new System.Drawing.Size(15, 18);
+            this.lblPlayer6Rate.TabIndex = 29;
+            this.lblPlayer6Rate.Text = "0";
+            // 
             // PokerClientForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(720, 582);
+            this.Controls.Add(this.lblPlayer6Rate);
+            this.Controls.Add(this.lblPlayer5Rate);
+            this.Controls.Add(this.lblPlayer4Rate);
+            this.Controls.Add(this.lblPlayer3Rate);
+            this.Controls.Add(this.lblPlayer2Rate);
+            this.Controls.Add(this.lblPlayer1Rate);
             this.Controls.Add(this.pbPlayer6Card2);
             this.Controls.Add(this.pbPlayer5Card2);
             this.Controls.Add(this.pbPlayer4Card2);
@@ -682,6 +760,7 @@ namespace Client
             this.Controls.Add(this.pbTable);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "PokerClientForm";
             this.Text = "Покер";
@@ -775,6 +854,12 @@ namespace Client
         private PictureBox pbPlayer5Card2;
         private PictureBox pbPlayer6Card1;
         private PictureBox pbPlayer6Card2;
+        private Label lblPlayer1Rate;
+        private Label lblPlayer2Rate;
+        private Label lblPlayer3Rate;
+        private Label lblPlayer4Rate;
+        private Label lblPlayer5Rate;
+        private Label lblPlayer6Rate;
     }
 }
 

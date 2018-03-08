@@ -57,6 +57,20 @@ namespace Client
             lblTimeToTurn.BackColor = Color.Transparent;
             lblPlace.BackColor = Color.Transparent;
             lblMaxCombination.BackColor = Color.Transparent;
+
+            // Включаем прозрачный фон у label ставок игроков
+            pbTable.Controls.Add(lblPlayer1Rate);
+            pbTable.Controls.Add(lblPlayer2Rate);
+            pbTable.Controls.Add(lblPlayer3Rate);
+            pbTable.Controls.Add(lblPlayer4Rate);
+            pbTable.Controls.Add(lblPlayer5Rate);
+            pbTable.Controls.Add(lblPlayer6Rate);
+            lblPlayer1Rate.BackColor = Color.Transparent;
+            lblPlayer2Rate.BackColor = Color.Transparent;
+            lblPlayer3Rate.BackColor = Color.Transparent;
+            lblPlayer4Rate.BackColor = Color.Transparent;
+            lblPlayer5Rate.BackColor = Color.Transparent;
+            lblPlayer6Rate.BackColor = Color.Transparent;
         }
 
         private void InitPictureBoxes()
