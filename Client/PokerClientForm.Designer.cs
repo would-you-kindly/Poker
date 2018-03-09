@@ -91,6 +91,7 @@ namespace Client
             this.lblMinRaise = new System.Windows.Forms.Label();
             this.lblMaxRaise = new System.Windows.Forms.Label();
             this.lblBank = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pbTable)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbCarpet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbRate)).BeginInit();
@@ -204,6 +205,7 @@ namespace Client
             this.btnFold.TabIndex = 7;
             this.btnFold.Text = "Fold";
             this.btnFold.UseVisualStyleBackColor = false;
+            this.btnFold.Click += new System.EventHandler(this.btnFold_Click);
             // 
             // pbFlop3
             // 
@@ -736,11 +738,22 @@ namespace Client
             this.lblBank.TabIndex = 31;
             this.lblBank.Text = "Банк: ";
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(253, 547);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 32;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // PokerClientForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(720, 582);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.lblBank);
             this.Controls.Add(this.lblMaxRaise);
             this.Controls.Add(this.lblMinRaise);
@@ -907,6 +920,7 @@ namespace Client
         private Label lblMinRaise;
         private Label lblMaxRaise;
         private Label lblBank;
+        private Button button1;
     }
 }
 

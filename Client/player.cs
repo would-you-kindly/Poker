@@ -7,6 +7,7 @@ using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Client
 {
@@ -43,6 +44,7 @@ namespace Client
 
         public Turn Fold()
         {
+            MessageBox.Show(client.Client.LocalEndPoint.ToString());
             return new Turn(TurnType.Fold);
         }
 

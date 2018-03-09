@@ -71,7 +71,6 @@ namespace Client
                 }
                 else
                 {
-                    MessageBox.Show(message.Body.ToString());
                     // Заполняем стол информацией об игроках
                     SeatPlayers((ServerPlayerInfo)message.Body);
                 }
@@ -261,6 +260,16 @@ namespace Client
         private void PokerClientForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             MessageQueue.Delete(queue.Path);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnFold_Click(object sender, EventArgs e)
+        {
+            player.Fold();
         }
     }
 }
