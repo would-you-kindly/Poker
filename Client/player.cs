@@ -26,10 +26,10 @@ namespace Client
 
             // Отправляем на сервер информацию о себе
             info = new PlayerInfo("sdf", 1020);
-            SendPlayerInfoToServer();
+            SendPlayerInfo();
         }
 
-        private void SendPlayerInfoToServer()
+        private void SendPlayerInfo()
         {
             BinaryFormatter formatter = new BinaryFormatter();
             using (MemoryStream memory = new MemoryStream())

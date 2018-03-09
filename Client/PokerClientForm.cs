@@ -5,7 +5,9 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Messaging;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -15,19 +17,118 @@ namespace Client
     {
         Player player;
 
+        MessageQueue queue;
+        string multicastAddress = "234.1.1.1:8001";
+        string path = ".\\private$\\MulticastTest" + new Random().Next(10000);
+
         public PokerClientForm()
         {
             InitializeComponent();
-
             InitPictureBoxes();
             InitControls();
 
+            InitMessageQueue();
+
             StartGame();
+        }
+
+        private void InitMessageQueue()
+        {
+            if (MessageQueue.Exists(path))
+            {
+                // Здесь создается только переменная в данной программе
+                queue = new MessageQueue(path);
+            }
+            else
+            {
+                // А здесь и переменная и очередь сообщений во внешней службе
+                queue = MessageQueue.Create(path);
+            }
+
+            queue.Formatter = new XmlMessageFormatter(new Type[] { typeof(ServerPlayerInfo) });
+            queue.MulticastAddress = multicastAddress;
         }
 
         private void StartGame()
         {
             player = new Player();
+
+            // Получаем информацию об игроках на сервере
+            Thread thread = new Thread(ReceiveServerPlayerInfo);
+            thread.Start();
+            //ReceiveServerPlayerInfo();
+        }
+
+        private void ReceiveServerPlayerInfo()
+        {
+            while (true)
+            {
+                System.Messaging.Message message = queue.Receive();
+
+                if (message == null)
+                {
+                    continue;
+                }
+                else
+                {
+                    MessageBox.Show(message.Body.ToString());
+                    // Заполняем стол информацией об игроках
+                    SeatPlayers((ServerPlayerInfo)message.Body);
+                }
+            }
+        }
+
+        // Обновляем информацию об игроках на столе
+        private void SeatPlayers(ServerPlayerInfo info)
+        {
+            switch (info.seat)
+            {
+                case 0:
+                    // Для решения проблемы попытки обращения к элементу созданному в другом потоке
+                    Invoke(new MethodInvoker(() =>
+                    {
+                        lblPlayer1Name.Text = info.name;
+                        lblPlayer1Money.Text = info.money.ToString();
+                    }));
+                    break;
+                case 1:
+                    Invoke(new MethodInvoker(() =>
+                    {
+                        lblPlayer2Name.Text = info.name;
+                        lblPlayer2Money.Text = info.money.ToString();
+                    }));
+                    break;
+                case 2:
+                    Invoke(new MethodInvoker(() =>
+                    {
+                        lblPlayer3Name.Text = info.name;
+                        lblPlayer3Money.Text = info.money.ToString();
+                    }));
+                    break;
+                case 3:
+                    Invoke(new MethodInvoker(() =>
+                    {
+                        lblPlayer4Name.Text = info.name;
+                        lblPlayer4Money.Text = info.money.ToString();
+                    }));
+                    break;
+                case 4:
+                    Invoke(new MethodInvoker(() =>
+                    {
+                        lblPlayer5Name.Text = info.name;
+                        lblPlayer5Money.Text = info.money.ToString();
+                    }));
+                    break;
+                case 5:
+                    Invoke(new MethodInvoker(() =>
+                    {
+                        lblPlayer6Name.Text = info.name;
+                        lblPlayer6Money.Text = info.money.ToString();
+                    }));
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void InitControls()
@@ -155,6 +256,11 @@ namespace Client
             pbPlayer4Diller.BackColor = Color.Transparent;
             pbPlayer5Diller.BackColor = Color.Transparent;
             pbPlayer6Diller.BackColor = Color.Transparent;
+        }
+
+        private void PokerClientForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            MessageQueue.Delete(queue.Path);
         }
     }
 }

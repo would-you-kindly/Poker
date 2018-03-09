@@ -807,6 +807,7 @@ namespace Client
             this.MaximizeBox = false;
             this.Name = "PokerClientForm";
             this.Text = "Покер";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PokerClientForm_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.pbTable)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbCarpet)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbRate)).EndInit();
