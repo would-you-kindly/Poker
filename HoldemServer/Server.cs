@@ -106,6 +106,7 @@ namespace HoldemServer
             {
                 // Получаем действия игрока (ходы)
                 byte[] bytes = new byte[1024];
+                // TODO: Если закрыть последнего клиента, говорит удаленный хост принудительо разорвал соединеие
                 tcpSocket.Receive(bytes);
                 BinaryFormatter formatter = new BinaryFormatter();
                 using (MemoryStream memory = new MemoryStream(bytes))
@@ -139,6 +140,7 @@ namespace HoldemServer
         private void GiveCards(int seat)
         {
             Random random = new Random();
+            // TODO: пока карты могут повторяться
             ServerPlayerInfo player = players.Find(p => p.seat == seat);
             player.card1 = new Card((CardSuit)random.Next((int)CardSuit.Count),
                 (CardQuality)random.Next((int)CardQuality.Count));
