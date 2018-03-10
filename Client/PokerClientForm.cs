@@ -71,7 +71,7 @@ namespace Client
                     // Получаем информацию об игроках с сервера для обновления клиентов
                     message = queue.Receive();
                 }
-                catch (Exception)
+                catch (Exception exc)
                 {
                     // Игнорируем исключение
                 }
@@ -84,6 +84,7 @@ namespace Client
                 {
                     // Заполняем стол информацией об игроках
                     SeatPlayers((List<ServerPlayerInfo>)message.Body);
+                    message.Dispose();
                 }
             }
         }
@@ -117,11 +118,11 @@ namespace Client
                         {
                             lblPlayer1Name.Text = info.name;
                             lblPlayer1Money.Text = info.money.ToString();
-                            pbPlayer1Card1.Image = SetCard(info.card1);
-                            pbPlayer1Card2.Image = SetCard(info.card2);
+                            pbPlayer1Card1.Image = SetCard1(info);
+                            pbPlayer1Card2.Image = SetCard2(info);
                         }));
                     }
-                    catch (Exception)
+                    catch (Exception exc)
                     {
 
                     }
@@ -134,11 +135,11 @@ namespace Client
                         {
                             lblPlayer2Name.Text = info.name;
                             lblPlayer2Money.Text = info.money.ToString();
-                            pbPlayer2Card1.Image = SetCard(info.card1);
-                            pbPlayer2Card2.Image = SetCard(info.card2);
+                            pbPlayer2Card1.Image = SetCard1(info);
+                            pbPlayer2Card2.Image = SetCard2(info);
                         }));
                     }
-                    catch (Exception)
+                    catch (Exception exc)
                     {
 
                     }
@@ -150,11 +151,11 @@ namespace Client
                         {
                             lblPlayer3Name.Text = info.name;
                             lblPlayer3Money.Text = info.money.ToString();
-                            pbPlayer3Card1.Image = SetCard(info.card1);
-                            pbPlayer3Card2.Image = SetCard(info.card2);
+                            pbPlayer3Card1.Image = SetCard1(info);
+                            pbPlayer3Card2.Image = SetCard2(info);
                         }));
                     }
-                    catch (Exception)
+                    catch (Exception exc)
                     {
 
                     }
@@ -166,11 +167,11 @@ namespace Client
                         {
                             lblPlayer4Name.Text = info.name;
                             lblPlayer4Money.Text = info.money.ToString();
-                            pbPlayer4Card1.Image = SetCard(info.card1);
-                            pbPlayer4Card2.Image = SetCard(info.card2);
+                            pbPlayer4Card1.Image = SetCard1(info);
+                            pbPlayer4Card2.Image = SetCard2(info);
                         }));
                     }
-                    catch (Exception)
+                    catch (Exception exc)
                     {
 
                     }
@@ -182,11 +183,11 @@ namespace Client
                         {
                             lblPlayer5Name.Text = info.name;
                             lblPlayer5Money.Text = info.money.ToString();
-                            pbPlayer5Card1.Image = SetCard(info.card1);
-                            pbPlayer5Card2.Image = SetCard(info.card2);
+                            pbPlayer5Card1.Image = SetCard1(info);
+                            pbPlayer5Card2.Image = SetCard2(info);
                         }));
                     }
-                    catch (Exception)
+                    catch (Exception exc)
                     {
 
                     }
@@ -198,11 +199,11 @@ namespace Client
                         {
                             lblPlayer6Name.Text = info.name;
                             lblPlayer6Money.Text = info.money.ToString();
-                            pbPlayer6Card1.Image = SetCard(info.card1);
-                            pbPlayer6Card2.Image = SetCard(info.card2);
+                            pbPlayer6Card1.Image = SetCard1(info);
+                            pbPlayer6Card2.Image = SetCard2(info);
                         }));
                     }
-                    catch (Exception)
+                    catch (Exception exc)
                     {
 
                     }
@@ -228,7 +229,7 @@ namespace Client
                             pbPlayer1Card2.Image = null;
                         }));
                     }
-                    catch (Exception)
+                    catch (Exception exc)
                     {
 
                     }
@@ -246,7 +247,7 @@ namespace Client
                             pbPlayer2Card2.Image = null;
                         }));
                     }
-                    catch (Exception)
+                    catch (Exception exc)
                     {
 
                     }
@@ -262,7 +263,7 @@ namespace Client
                             pbPlayer3Card2.Image = null;
                         }));
                     }
-                    catch (Exception)
+                    catch (Exception exc)
                     {
 
                     }
@@ -278,7 +279,7 @@ namespace Client
                             pbPlayer4Card2.Image = null;
                         }));
                     }
-                    catch (Exception)
+                    catch (Exception exc)
                     {
 
                     }
@@ -294,7 +295,7 @@ namespace Client
                             pbPlayer5Card2.Image = null;
                         }));
                     }
-                    catch (Exception)
+                    catch (Exception exc)
                     {
 
                     }
@@ -310,7 +311,7 @@ namespace Client
                             pbPlayer6Card2.Image = null;
                         }));
                     }
-                    catch (Exception)
+                    catch (Exception exc)
                     {
 
                     }
@@ -320,10 +321,34 @@ namespace Client
             }
         }
 
-        private Image SetCard(Card card)
+        private Image SetCard1(ServerPlayerInfo info)
         {
-            string filename = "../../Images/Cards/" + card.suit.ToString() + card.quality.ToString() + ".png";
-            return Image.FromFile(filename);
+            // Устанавливаем карты так, чтобы клиент мог видеть только свои
+            if (info.endPoint.Equals(player.client.Client.LocalEndPoint.ToString()))
+            {
+                string filename = "../../Images/Cards/" + info.card1.suit.ToString() + info.card1.quality.ToString() + ".png";
+                return Image.FromFile(filename);
+            }
+            else
+            {
+                string filename = "../../Images/Cards/Back.png";
+                return Image.FromFile(filename);
+            }
+        }
+
+        private Image SetCard2(ServerPlayerInfo info)
+        {
+            // Устанавливаем карты так, чтобы клиент мог видеть только свои
+            if (info.endPoint.Equals(player.client.Client.LocalEndPoint.ToString()))
+            {
+                string filename = "../../Images/Cards/" + info.card2.suit.ToString() + info.card2.quality.ToString() + ".png";
+                return Image.FromFile(filename);
+            }
+            else
+            {
+                string filename = "../../Images/Cards/Back.png";
+                return Image.FromFile(filename);
+            }
         }
 
         private void InitControls()

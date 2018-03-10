@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
@@ -26,7 +27,7 @@ namespace Client
             client.Connect("", Helper.port);
 
             // Отправляем на сервер информацию о себе
-            info = new PlayerInfo("sdf", new Random().Next(1000));
+            info = new PlayerInfo("sdf", new Random().Next(1000), client.Client.LocalEndPoint.ToString());
             SendPlayerInfo();
         }
 

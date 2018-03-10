@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,17 +21,21 @@ namespace Model
             base()
         {
             seat = 0;
+            diller = false;
+            yourMove = false;
+            card1 = null;
+            card2 = null;
         }
 
-        public ServerPlayerInfo(string name, int money, int seat) :
-            base(name, money)
+        public ServerPlayerInfo(string name, int money, string endPoint, int seat) :
+            base(name, money, endPoint)
         {
             this.seat = seat;
         }
 
         public override string ToString()
         {
-            return base.ToString() + string.Format("on seat {0}", seat);
+            return base.ToString() + string.Format("Seat {0};\nCards {1}, {2};\n", seat, card1, card2);
         }
     }
 }

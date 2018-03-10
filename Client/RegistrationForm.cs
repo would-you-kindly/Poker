@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -20,7 +21,7 @@ namespace Client
 
         private void btnConnect_Click(object sender, EventArgs e)
         {
-            PlayerInfo info = new PlayerInfo(tbName.Text, (int)nudMoney.Value);
+            PlayerInfo info = new PlayerInfo(tbName.Text, (int)nudMoney.Value, null);
 
             try
             {

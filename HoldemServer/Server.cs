@@ -15,7 +15,6 @@ namespace HoldemServer
 {
     class Server
     {
-        const int maxPlayersCount = 6;
         // Информация об игроках
         List<ServerPlayerInfo> players;
 
@@ -63,7 +62,7 @@ namespace HoldemServer
                 // TODO: В это месте упало в случайный момент времени почему-то
                 PlayerInfo info = (PlayerInfo)formatter.Deserialize(memory);
                 seat = FindSeat();
-                ServerPlayerInfo serverInfo = new ServerPlayerInfo(info.name, info.money, seat);
+                ServerPlayerInfo serverInfo = new ServerPlayerInfo(info.name, info.money, info.endPoint, seat);
                 players.Add(serverInfo);
                 Console.WriteLine($"Player {info.name} with ${info.money} seat on {seat}");
             }
@@ -150,15 +149,6 @@ namespace HoldemServer
 
         private void SendServerPlayerInfoByQueue()
         {
-            //try
-            //{
-            //    queue.Purge();
-            //}
-            //catch (Exception)
-            //{
-            //    // Игнорируем исключение
-            //}
-
             queue.Send(players);
         }
     }
