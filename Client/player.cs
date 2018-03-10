@@ -16,7 +16,7 @@ namespace Client
     {
         public TcpClient client;
 
-        PlayerInfo info;
+        public PlayerInfo info;
         //int rate;
         //bool isDiller;
 
@@ -54,9 +54,9 @@ namespace Client
             return new Turn(TurnType.Check);
         }
 
-        public Turn Call(int money)
+        public Turn Call()
         {
-            return new Turn(TurnType.Call, money);
+            return new Turn(TurnType.Call);
         }
 
         public Turn Raise(int money)

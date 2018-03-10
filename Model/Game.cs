@@ -19,19 +19,22 @@ namespace Model
             involvedPlayers = new List<ServerPlayerInfo>();
         }
 
-        public void StartNewGame(List<ServerPlayerInfo> involvedPlayers)
+        public List<ServerPlayerInfo> StartNewGame(List<ServerPlayerInfo> involvedPlayers)
         {
             // Текущая раздача начата
             playing = true;
             // Запоминаем участвующих игроков в данной раздаче
             this.involvedPlayers = involvedPlayers;
-            involvedPlayers[0].diller = true;
-            involvedPlayers[1].currentRate = littleBlind;
-            involvedPlayers[0].currentRate = bigBlind;
-            involvedPlayers[1].yourMove = true;
+            involvedPlayers[0 % involvedPlayers.Count].diller = true;
+            involvedPlayers[1 % involvedPlayers.Count].currentRate = littleBlind;
+            involvedPlayers[2 % involvedPlayers.Count].currentRate = bigBlind;
+            involvedPlayers[3 % involvedPlayers.Count].yourMove = true;
 
             // Запоминаем наибольшую ставку на столе
             biggestRate = bigBlind;
+
+            // Возвращаем обновленную информацию об игроках после старта игры
+            return involvedPlayers;
         }
 
         public void EndGame()
@@ -65,7 +68,7 @@ namespace Model
                 case TurnType.Check:
                     // Передаем ход следующему игроку
                     involvedPlayers[playerIndex].yourMove = false;
-                    involvedPlayers[(playerIndex + 1) % involvedPlayers.Count].yourMove = false;
+                    involvedPlayers[(playerIndex + 1) % involvedPlayers.Count].yourMove = true;
                     break;
                 case TurnType.Call:
                     // Вычитаем ставку со счета игрока
@@ -74,7 +77,7 @@ namespace Model
                     involvedPlayers[playerIndex].currentRate = biggestRate;
                     // Передаем ход следующему игроку
                     involvedPlayers[playerIndex].yourMove = false;
-                    involvedPlayers[(playerIndex + 1) % involvedPlayers.Count].yourMove = false;
+                    involvedPlayers[(playerIndex + 1) % involvedPlayers.Count].yourMove = true;
                     break;
                 case TurnType.Raise:
                     break;

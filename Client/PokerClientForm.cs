@@ -83,8 +83,53 @@ namespace Client
                 else
                 {
                     // Заполняем стол информацией об игроках
-                    SeatPlayers((List<ServerPlayerInfo>)message.Body);
+                    var players = (List<ServerPlayerInfo>)message.Body;
+                    SeatPlayers(players);
                     message.Dispose();
+                }
+            }
+        }
+
+        private void SwitchButtons(bool on)
+        {
+            if (on)
+            {
+                try
+                {
+                    Invoke(new MethodInvoker(() =>
+                    {
+                        tbRate.Visible = true;
+                        rtbRate.Visible = true;
+                        btnFold.Visible = true;
+                        btnCallCheck.Visible = true;
+                        btnRaise.Visible = true;
+                        lblMinRaise.Visible = true;
+                        lblMaxRaise.Visible = true;
+                    }));
+                }
+                catch
+                {
+                    //
+                }
+            }
+            else
+            {
+                try
+                {
+                    Invoke(new MethodInvoker(() =>
+                    {
+                        tbRate.Visible = false;
+                        rtbRate.Visible = false;
+                        btnFold.Visible = false;
+                        btnCallCheck.Visible = false;
+                        btnRaise.Visible = false;
+                        lblMinRaise.Visible = false;
+                        lblMaxRaise.Visible = false;
+                    }));
+                }
+                catch
+                {
+                    //
                 }
             }
         }
@@ -92,21 +137,33 @@ namespace Client
         // Обновляем информацию об игроках на столе
         private void SeatPlayers(List<ServerPlayerInfo> players)
         {
+            // Заполняем стол
             for (int i = 0; i < Helper.maxPlayers; i++)
             {
                 ServerPlayerInfo player = players.Find(p => p.seat == i);
                 if (player != null)
                 {
-                    SeatPlayer(player);
+                    UpdateTable(player);
                 }
                 else
                 {
                     CleanSeat(i);
                 }
             }
+
+            // Включаем/выключаем кнопки
+            ServerPlayerInfo me = players.Find(p => p.endPoint == player.info.endPoint);
+            if (me.yourMove)
+            {
+                SwitchButtons(true);
+            }
+            else
+            {
+                SwitchButtons(false);
+            }
         }
 
-        private void SeatPlayer(ServerPlayerInfo info)
+        private void UpdateTable(ServerPlayerInfo info)
         {
             switch (info.seat)
             {
@@ -120,6 +177,7 @@ namespace Client
                             lblPlayer1Money.Text = info.money.ToString();
                             pbPlayer1Card1.Image = SetCard1(info);
                             pbPlayer1Card2.Image = SetCard2(info);
+                            lblPlayer1Rate.Text = info.currentRate.ToString();
                         }));
                     }
                     catch (Exception exc)
@@ -137,6 +195,7 @@ namespace Client
                             lblPlayer2Money.Text = info.money.ToString();
                             pbPlayer2Card1.Image = SetCard1(info);
                             pbPlayer2Card2.Image = SetCard2(info);
+                            lblPlayer2Rate.Text = info.currentRate.ToString();
                         }));
                     }
                     catch (Exception exc)
@@ -153,6 +212,7 @@ namespace Client
                             lblPlayer3Money.Text = info.money.ToString();
                             pbPlayer3Card1.Image = SetCard1(info);
                             pbPlayer3Card2.Image = SetCard2(info);
+                            lblPlayer3Rate.Text = info.currentRate.ToString();
                         }));
                     }
                     catch (Exception exc)
@@ -169,6 +229,7 @@ namespace Client
                             lblPlayer4Money.Text = info.money.ToString();
                             pbPlayer4Card1.Image = SetCard1(info);
                             pbPlayer4Card2.Image = SetCard2(info);
+                            lblPlayer4Rate.Text = info.currentRate.ToString();
                         }));
                     }
                     catch (Exception exc)
@@ -185,6 +246,7 @@ namespace Client
                             lblPlayer5Money.Text = info.money.ToString();
                             pbPlayer5Card1.Image = SetCard1(info);
                             pbPlayer5Card2.Image = SetCard2(info);
+                            lblPlayer5Rate.Text = info.currentRate.ToString();
                         }));
                     }
                     catch (Exception exc)
@@ -201,6 +263,7 @@ namespace Client
                             lblPlayer6Money.Text = info.money.ToString();
                             pbPlayer6Card1.Image = SetCard1(info);
                             pbPlayer6Card2.Image = SetCard2(info);
+                            lblPlayer6Rate.Text = info.currentRate.ToString();
                         }));
                     }
                     catch (Exception exc)
@@ -227,6 +290,7 @@ namespace Client
                             lblPlayer1Money.Text = "";
                             pbPlayer1Card1.Image = null;
                             pbPlayer1Card2.Image = null;
+                            lblPlayer1Rate.Text = "";
                         }));
                     }
                     catch (Exception exc)
@@ -245,6 +309,7 @@ namespace Client
                             lblPlayer2Money.Text = "";
                             pbPlayer2Card1.Image = null;
                             pbPlayer2Card2.Image = null;
+                            lblPlayer2Rate.Text = "";
                         }));
                     }
                     catch (Exception exc)
@@ -261,6 +326,7 @@ namespace Client
                             lblPlayer3Money.Text = "";
                             pbPlayer3Card1.Image = null;
                             pbPlayer3Card2.Image = null;
+                            lblPlayer3Rate.Text = "";
                         }));
                     }
                     catch (Exception exc)
@@ -277,6 +343,7 @@ namespace Client
                             lblPlayer4Money.Text = "";
                             pbPlayer4Card1.Image = null;
                             pbPlayer4Card2.Image = null;
+                            lblPlayer4Rate.Text = "";
                         }));
                     }
                     catch (Exception exc)
@@ -293,6 +360,7 @@ namespace Client
                             lblPlayer5Money.Text = "";
                             pbPlayer5Card1.Image = null;
                             pbPlayer5Card2.Image = null;
+                            lblPlayer5Rate.Text = "";
                         }));
                     }
                     catch (Exception exc)
@@ -309,6 +377,7 @@ namespace Client
                             lblPlayer6Money.Text = "";
                             pbPlayer6Card1.Image = null;
                             pbPlayer6Card2.Image = null;
+                            lblPlayer6Rate.Text = "";
                         }));
                     }
                     catch (Exception exc)
@@ -507,6 +576,18 @@ namespace Client
         private void btnFold_Click(object sender, EventArgs e)
         {
             Turn turn = player.Fold();
+            SendPlayerTurn(turn);
+        }
+
+        private void btnCallCheck_Click(object sender, EventArgs e)
+        {
+            Turn turn = player.Call();
+            SendPlayerTurn(turn);
+        }
+
+        private void btnRaise_Click(object sender, EventArgs e)
+        {
+            Turn turn = player.Raise(int.Parse(tbRate.Text));
             SendPlayerTurn(turn);
         }
     }

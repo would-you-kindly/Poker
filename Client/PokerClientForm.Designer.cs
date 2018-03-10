@@ -158,6 +158,7 @@ namespace Client
             this.btnRaise.TabIndex = 2;
             this.btnRaise.Text = "Raise";
             this.btnRaise.UseVisualStyleBackColor = false;
+            this.btnRaise.Click += new System.EventHandler(this.btnRaise_Click);
             // 
             // tbRate
             // 
@@ -192,6 +193,7 @@ namespace Client
             this.btnCallCheck.TabIndex = 6;
             this.btnCallCheck.Text = "Check\r\n";
             this.btnCallCheck.UseVisualStyleBackColor = false;
+            this.btnCallCheck.Click += new System.EventHandler(this.btnCallCheck_Click);
             // 
             // btnFold
             // 

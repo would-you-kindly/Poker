@@ -60,7 +60,10 @@ namespace HoldemServer
                 // Начинаем новую раздачу, когда за столом окажется минимум два игрока
                 if (clients.Count >= 2)
                 {
-                    game.StartNewGame(new List<ServerPlayerInfo>(players));
+                    Thread.Sleep(1000);
+                    var involvedPlayers = game.StartNewGame(new List<ServerPlayerInfo>(players));
+                    UpdatePlayersFromInvolved(involvedPlayers);
+                    SendServerPlayerInfoByQueue();
                 }
             }
         }
@@ -129,13 +132,7 @@ namespace HoldemServer
                         case TurnType.Raise:
                             // Получаем обновленную информацию об участвовавших в раздаче игроках
                             var involvedPlayers = game.MakeTurn(seat, turn);
-                            foreach (var player in players)
-                            {
-                                if (true)
-                                {
-                                    //
-                                }
-                            }
+                            UpdatePlayersFromInvolved(involvedPlayers);
                             break;
                         case TurnType.Exit:
                             ServerPlayerInfo info = players.Find(player => player.seat == seat);
@@ -147,6 +144,19 @@ namespace HoldemServer
                     }
 
                     SendServerPlayerInfoByQueue();
+                }
+            }
+        }
+
+        private void UpdatePlayersFromInvolved(List<ServerPlayerInfo> involvedPlayers)
+        {
+            for (int i = 0; i < players.Count; i++)
+            {
+                int seat = players[i].seat;
+                ServerPlayerInfo player = involvedPlayers.Find(p => p.seat == seat);
+                if (player != null)
+                {
+                    players[i] = player;
                 }
             }
         }
