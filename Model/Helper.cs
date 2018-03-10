@@ -9,5 +9,6 @@ namespace Model
     public static class Helper
     {
         public static int port = 8000;
+        public static int maxPlayers = 6;
     }
 }

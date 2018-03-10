@@ -34,7 +34,7 @@ namespace HoldemServer
             clients = new List<Thread>();
 
             queue = new MessageQueue("FormatName:MULTICAST=234.1.1.1:8001");
-            queue.Formatter = new XmlMessageFormatter(new Type[] { typeof(ServerPlayerInfo) });
+            queue.Formatter = new XmlMessageFormatter(new Type[] { typeof(List<ServerPlayerInfo>) });
 
             Console.WriteLine(Dns.GetHostEntry(Dns.GetHostName()).AddressList[0].MapToIPv4());
         }
@@ -159,10 +159,7 @@ namespace HoldemServer
             //    // Игнорируем исключение
             //}
 
-            foreach (ServerPlayerInfo player in players)
-            {
-                queue.Send(player);
-            }
+            queue.Send(players);
         }
     }
 }

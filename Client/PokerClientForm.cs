@@ -48,7 +48,7 @@ namespace Client
                 queue = MessageQueue.Create(path);
             }
 
-            queue.Formatter = new XmlMessageFormatter(new Type[] { typeof(ServerPlayerInfo) });
+            queue.Formatter = new XmlMessageFormatter(new Type[] { typeof(List<ServerPlayerInfo>) });
             queue.MulticastAddress = multicastAddress;
         }
 
@@ -66,18 +66,10 @@ namespace Client
             System.Messaging.Message message = new System.Messaging.Message();
             while (work)
             {
-                string s = "";
-                foreach (var item in queue)
-                {
-                    s += item.ToString() + "\n";
-                }
-                MessageBox.Show(s);
-
                 try
                 {
                     // Получаем информацию об игроках с сервера для обновления клиентов
                     message = queue.Receive();
-                    
                 }
                 catch (Exception)
                 {
@@ -91,22 +83,36 @@ namespace Client
                 else
                 {
                     // Заполняем стол информацией об игроках
-                    SeatPlayers((ServerPlayerInfo)message.Body);
+                    SeatPlayers((List<ServerPlayerInfo>)message.Body);
                 }
             }
         }
 
         // Обновляем информацию об игроках на столе
-        private void SeatPlayers(ServerPlayerInfo info)
+        private void SeatPlayers(List<ServerPlayerInfo> players)
         {
-            CleanTable(info.seat);
+            for (int i = 0; i < Helper.maxPlayers; i++)
+            {
+                ServerPlayerInfo player = players.Find(p => p.seat == i);
+                if (player != null)
+                {
+                    SeatPlayer(player);
+                }
+                else
+                {
+                    CleanSeat(i);
+                }
+            }
+        }
 
-            switch (info?.seat)
+        private void SeatPlayer(ServerPlayerInfo info)
+        {
+            switch (info.seat)
             {
                 case 0:
                     try
                     {
-                        // Для решения проблемы попытки обращения к элементу созданному в другом потоке
+                        // Для решения проблемы попытки обращения к элементу созданному в другом потоке используем MethodInvoker
                         Invoke(new MethodInvoker(() =>
                         {
                             lblPlayer1Name.Text = info.name;
@@ -194,6 +200,114 @@ namespace Client
                             lblPlayer6Money.Text = info.money.ToString();
                             pbPlayer6Card1.Image = SetCard(info.card1);
                             pbPlayer6Card2.Image = SetCard(info.card2);
+                        }));
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void CleanSeat(int seat)
+        {
+            switch (seat)
+            {
+                case 0:
+                    // Для решения проблемы попытки обращения к элементу созданному в другом потоке
+                    try
+                    {
+                        Invoke(new MethodInvoker(() =>
+                        {
+                            lblPlayer1Name.Text = "";
+                            lblPlayer1Money.Text = "";
+                            pbPlayer1Card1.Image = null;
+                            pbPlayer1Card2.Image = null;
+                        }));
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                    break;
+                case 1:
+                    // TODO: Тут было исключение с потоками при отключении одного из клиентов
+                    // Доступ кликвидированному объекту невохзможен
+                    try
+                    {
+                        Invoke(new MethodInvoker(() =>
+                        {
+                            lblPlayer2Name.Text = "";
+                            lblPlayer2Money.Text = "";
+                            pbPlayer2Card1.Image = null;
+                            pbPlayer2Card2.Image = null;
+                        }));
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                    break;
+                case 2:
+                    try
+                    {
+                        Invoke(new MethodInvoker(() =>
+                        {
+                            lblPlayer3Name.Text = "";
+                            lblPlayer3Money.Text = "";
+                            pbPlayer3Card1.Image = null;
+                            pbPlayer3Card2.Image = null;
+                        }));
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                    break;
+                case 3:
+                    try
+                    {
+                        Invoke(new MethodInvoker(() =>
+                        {
+                            lblPlayer4Name.Text = "";
+                            lblPlayer4Money.Text = "";
+                            pbPlayer4Card1.Image = null;
+                            pbPlayer4Card2.Image = null;
+                        }));
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                    break;
+                case 4:
+                    try
+                    {
+                        Invoke(new MethodInvoker(() =>
+                        {
+                            lblPlayer5Name.Text = "";
+                            lblPlayer5Money.Text = "";
+                            pbPlayer5Card1.Image = null;
+                            pbPlayer5Card2.Image = null;
+                        }));
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                    break;
+                case 5:
+                    try
+                    {
+                        Invoke(new MethodInvoker(() =>
+                        {
+                            lblPlayer6Name.Text = "";
+                            lblPlayer6Money.Text = "";
+                            pbPlayer6Card1.Image = null;
+                            pbPlayer6Card2.Image = null;
                         }));
                     }
                     catch (Exception)
@@ -346,114 +460,6 @@ namespace Client
             work = false;
             queue.Purge();
             MessageQueue.Delete(queue.Path);
-        }
-
-        private void CleanTable(int seat)
-        {
-            switch (seat)
-            {
-                case 0:
-                    // Для решения проблемы попытки обращения к элементу созданному в другом потоке
-                    try
-                    {
-                        Invoke(new MethodInvoker(() =>
-                        {
-                            lblPlayer1Name.Text = "";
-                            lblPlayer1Money.Text = "";
-                            pbPlayer1Card1.Image = null;
-                            pbPlayer1Card2.Image = null;
-                        }));
-                    }
-                    catch (Exception)
-                    {
-
-                    }
-                    break;
-                case 1:
-                    // TODO: Тут было исключение с потоками при отключении одного из клиентов
-                    // Доступ кликвидированному объекту невохзможен
-                    try
-                    {
-                        Invoke(new MethodInvoker(() =>
-                        {
-                            lblPlayer2Name.Text = "";
-                            lblPlayer2Money.Text = "";
-                            pbPlayer2Card1.Image = null;
-                            pbPlayer2Card2.Image = null;
-                        }));
-                    }
-                    catch (Exception)
-                    {
-
-                    }
-                    break;
-                case 2:
-                    try
-                    {
-                        Invoke(new MethodInvoker(() =>
-                        {
-                            lblPlayer3Name.Text = "";
-                            lblPlayer3Money.Text = "";
-                            pbPlayer3Card1.Image = null;
-                            pbPlayer3Card2.Image = null;
-                        }));
-                    }
-                    catch (Exception)
-                    {
-
-                    }
-                    break;
-                case 3:
-                    try
-                    {
-                        Invoke(new MethodInvoker(() =>
-                        {
-                            lblPlayer4Name.Text = "";
-                            lblPlayer4Money.Text = "";
-                            pbPlayer4Card1.Image = null;
-                            pbPlayer4Card2.Image = null;
-                        }));
-                    }
-                    catch (Exception)
-                    {
-
-                    }
-                    break;
-                case 4:
-                    try
-                    {
-                        Invoke(new MethodInvoker(() =>
-                        {
-                            lblPlayer5Name.Text = "";
-                            lblPlayer5Money.Text = "";
-                            pbPlayer5Card1.Image = null;
-                            pbPlayer5Card2.Image = null;
-                        }));
-                    }
-                    catch (Exception)
-                    {
-
-                    }
-                    break;
-                case 5:
-                    try
-                    {
-                        Invoke(new MethodInvoker(() =>
-                        {
-                            lblPlayer6Name.Text = "";
-                            lblPlayer6Money.Text = "";
-                            pbPlayer6Card1.Image = null;
-                            pbPlayer6Card2.Image = null;
-                        }));
-                    }
-                    catch (Exception)
-                    {
-
-                    }
-                    break;
-                default:
-                    break;
-            }
         }
 
         private void SendPlayerTurn(Turn turn)
