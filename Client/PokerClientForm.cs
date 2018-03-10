@@ -323,32 +323,32 @@ namespace Client
 
         private Image SetCard1(ServerPlayerInfo info)
         {
+            string filename = "";
             // Устанавливаем карты так, чтобы клиент мог видеть только свои
             if (info.endPoint.Equals(player.client.Client.LocalEndPoint.ToString()))
             {
-                string filename = "../../Images/Cards/" + info.card1.suit.ToString() + info.card1.quality.ToString() + ".png";
-                return Image.FromFile(filename);
+                filename = "../../Images/Cards/" + info.card1.suit.ToString() + info.card1.quality.ToString() + ".png";
             }
             else
             {
-                string filename = "../../Images/Cards/Back.png";
-                return Image.FromFile(filename);
+                filename = "../../Images/Cards/Back.png";
             }
+            return Image.FromFile(filename);
         }
 
         private Image SetCard2(ServerPlayerInfo info)
         {
+            string filename = "";
             // Устанавливаем карты так, чтобы клиент мог видеть только свои
             if (info.endPoint.Equals(player.client.Client.LocalEndPoint.ToString()))
             {
-                string filename = "../../Images/Cards/" + info.card2.suit.ToString() + info.card2.quality.ToString() + ".png";
-                return Image.FromFile(filename);
+                filename = "../../Images/Cards/" + info.card2.suit.ToString() + info.card2.quality.ToString() + ".png";
             }
             else
             {
-                string filename = "../../Images/Cards/Back.png";
-                return Image.FromFile(filename);
+                filename = "../../Images/Cards/Back.png";
             }
+            return Image.FromFile(filename);
         }
 
         private void InitControls()

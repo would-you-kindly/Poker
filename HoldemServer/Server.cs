@@ -18,8 +18,13 @@ namespace HoldemServer
         // Информация об игроках
         List<ServerPlayerInfo> players;
 
+        // Колода карт 
+        CardDeck deck;
+
         // Очередь сообщений для уведомления всех текущих клиентов о новом игроке
         MessageQueue queue;
+
+
 
         TcpListener listener;
         Socket tcpSocket;
@@ -29,6 +34,7 @@ namespace HoldemServer
         public Server()
         {
             players = new List<ServerPlayerInfo>();
+            deck = new CardDeck();
             listener = new TcpListener(Helper.port);
             clients = new List<Thread>();
 
@@ -138,13 +144,10 @@ namespace HoldemServer
 
         private void GiveCards(int seat)
         {
-            Random random = new Random();
             // TODO: пока карты могут повторяться
             ServerPlayerInfo player = players.Find(p => p.seat == seat);
-            player.card1 = new Card((CardSuit)random.Next((int)CardSuit.Count),
-                (CardQuality)random.Next((int)CardQuality.Count));
-            player.card2 = new Card((CardSuit)random.Next((int)CardSuit.Count),
-                (CardQuality)random.Next((int)CardQuality.Count));
+            player.card1 = deck.GetRandomCard();
+            player.card2 = deck.GetRandomCard();
         }
 
         private void SendServerPlayerInfoByQueue()
