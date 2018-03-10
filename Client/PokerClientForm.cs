@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Messaging;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -56,14 +58,22 @@ namespace Client
             // Получаем информацию об игроках на сервере
             Thread thread = new Thread(ReceiveServerPlayerInfo);
             thread.Start();
-            //ReceiveServerPlayerInfo();
         }
 
         private void ReceiveServerPlayerInfo()
         {
+            System.Messaging.Message message = new System.Messaging.Message();
             while (true)
             {
-                System.Messaging.Message message = queue.Receive();
+                try
+                {
+                    // Получаем информацию об игроках с сервера для обновления клиентов
+                    message = queue.Receive();
+                }
+                catch (Exception)
+                {
+                    // Игнорируем исключение
+                }
 
                 if (message == null)
                 {
@@ -80,7 +90,7 @@ namespace Client
         // Обновляем информацию об игроках на столе
         private void SeatPlayers(ServerPlayerInfo info)
         {
-            switch (info.seat)
+            switch (info?.seat)
             {
                 case 0:
                     // Для решения проблемы попытки обращения к элементу созданному в другом потоке
@@ -88,13 +98,18 @@ namespace Client
                     {
                         lblPlayer1Name.Text = info.name;
                         lblPlayer1Money.Text = info.money.ToString();
+                        pbPlayer1Card1.Image = SetCard(info.card1);
+                        pbPlayer1Card2.Image = SetCard(info.card2);
                     }));
                     break;
                 case 1:
+                    // TODO: Тут было исключение с потоками при отключении одного из клиентов
                     Invoke(new MethodInvoker(() =>
                     {
                         lblPlayer2Name.Text = info.name;
                         lblPlayer2Money.Text = info.money.ToString();
+                        pbPlayer2Card1.Image = SetCard(info.card1);
+                        pbPlayer2Card2.Image = SetCard(info.card2);
                     }));
                     break;
                 case 2:
@@ -102,6 +117,8 @@ namespace Client
                     {
                         lblPlayer3Name.Text = info.name;
                         lblPlayer3Money.Text = info.money.ToString();
+                        pbPlayer3Card1.Image = SetCard(info.card1);
+                        pbPlayer3Card2.Image = SetCard(info.card2);
                     }));
                     break;
                 case 3:
@@ -109,6 +126,8 @@ namespace Client
                     {
                         lblPlayer4Name.Text = info.name;
                         lblPlayer4Money.Text = info.money.ToString();
+                        pbPlayer4Card1.Image = SetCard(info.card1);
+                        pbPlayer4Card2.Image = SetCard(info.card2);
                     }));
                     break;
                 case 4:
@@ -116,6 +135,8 @@ namespace Client
                     {
                         lblPlayer5Name.Text = info.name;
                         lblPlayer5Money.Text = info.money.ToString();
+                        pbPlayer5Card1.Image = SetCard(info.card1);
+                        pbPlayer5Card2.Image = SetCard(info.card2);
                     }));
                     break;
                 case 5:
@@ -123,11 +144,19 @@ namespace Client
                     {
                         lblPlayer6Name.Text = info.name;
                         lblPlayer6Money.Text = info.money.ToString();
+                        pbPlayer6Card1.Image = SetCard(info.card1);
+                        pbPlayer6Card2.Image = SetCard(info.card2);
                     }));
                     break;
                 default:
                     break;
             }
+        }
+
+        private Image SetCard(Card card)
+        {
+            string filename = "../../Images/Cards/" + card.suit.ToString() + card.quality.ToString() + ".png";
+            return Image.FromFile(filename);
         }
 
         private void InitControls()
@@ -259,7 +288,22 @@ namespace Client
 
         private void PokerClientForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            Turn turn = player.Exit();
+            SendPlayerTurn(turn);
+
             MessageQueue.Delete(queue.Path);
+        }
+
+        private void SendPlayerTurn(Turn turn)
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            using (MemoryStream memory = new MemoryStream())
+            {
+                formatter.Serialize(memory, turn);
+                Stream stream = player.client.GetStream();
+                byte[] bytes = memory.ToArray();
+                stream.Write(bytes, 0, bytes.Length);
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -269,7 +313,8 @@ namespace Client
 
         private void btnFold_Click(object sender, EventArgs e)
         {
-            player.Fold();
+            Turn turn = player.Fold();
+            SendPlayerTurn(turn);
         }
     }
 }

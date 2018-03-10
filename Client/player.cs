@@ -13,7 +13,7 @@ namespace Client
 {
     class Player
     {
-        TcpClient client;
+        public TcpClient client;
 
         PlayerInfo info;
         //int rate;
@@ -26,7 +26,7 @@ namespace Client
             client.Connect("", Helper.port);
 
             // Отправляем на сервер информацию о себе
-            info = new PlayerInfo("sdf", 1020);
+            info = new PlayerInfo("sdf", new Random().Next(1000));
             SendPlayerInfo();
         }
 
@@ -61,6 +61,11 @@ namespace Client
         public Turn Raise(int money)
         {
             return new Turn(TurnType.Raise, money);
+        }
+
+        public Turn Exit()
+        {
+            return new Turn(TurnType.Exit);
         }
     }
 }

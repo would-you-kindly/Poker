@@ -92,59 +92,65 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{B4194085-BFE3-4A6F-ADBB-678CF8610372}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="Images\Cards\Back.png" />
-    <Content Include="Images\Cards\Clubs\10c.png" />
-    <Content Include="Images\Cards\Clubs\2c.png" />
-    <Content Include="Images\Cards\Clubs\3c.png" />
-    <Content Include="Images\Cards\Clubs\4c.png" />
-    <Content Include="Images\Cards\Clubs\5c.png" />
-    <Content Include="Images\Cards\Clubs\6c.png" />
-    <Content Include="Images\Cards\Clubs\7c.png" />
-    <Content Include="Images\Cards\Clubs\8c.png" />
-    <Content Include="Images\Cards\Clubs\9c.png" />
-    <Content Include="Images\Cards\Clubs\Ac.png" />
-    <Content Include="Images\Cards\Clubs\Jc.png" />
-    <Content Include="Images\Cards\Clubs\Kc.png" />
-    <Content Include="Images\Cards\Clubs\Qc.png" />
-    <Content Include="Images\Cards\Diamonds\10d.png" />
-    <Content Include="Images\Cards\Diamonds\2d.png" />
-    <Content Include="Images\Cards\Diamonds\3d.png" />
-    <Content Include="Images\Cards\Diamonds\4d.png" />
-    <Content Include="Images\Cards\Diamonds\5d.png" />
-    <Content Include="Images\Cards\Diamonds\6d.png" />
-    <Content Include="Images\Cards\Diamonds\7d.png" />
-    <Content Include="Images\Cards\Diamonds\8d.png" />
-    <Content Include="Images\Cards\Diamonds\9d.png" />
-    <Content Include="Images\Cards\Diamonds\Ad.png" />
-    <Content Include="Images\Cards\Diamonds\Jd.png" />
-    <Content Include="Images\Cards\Diamonds\Kd.png" />
-    <Content Include="Images\Cards\Diamonds\Qd.png" />
-    <Content Include="Images\Cards\Hearts\10h.png" />
-    <Content Include="Images\Cards\Hearts\2h.png" />
-    <Content Include="Images\Cards\Hearts\3h.png" />
-    <Content Include="Images\Cards\Hearts\4h.png" />
-    <Content Include="Images\Cards\Hearts\5h.png" />
-    <Content Include="Images\Cards\Hearts\6h.png" />
-    <Content Include="Images\Cards\Hearts\7h.png" />
-    <Content Include="Images\Cards\Hearts\8h.png" />
-    <Content Include="Images\Cards\Hearts\9h.png" />
-    <Content Include="Images\Cards\Hearts\Ah.png" />
-    <Content Include="Images\Cards\Hearts\Jh.png" />
-    <Content Include="Images\Cards\Hearts\Kh.png" />
-    <Content Include="Images\Cards\Hearts\Qh.png" />
-    <Content Include="Images\Cards\Spades\10s.png" />
-    <Content Include="Images\Cards\Spades\2s.png" />
-    <Content Include="Images\Cards\Spades\3s.png" />
-    <Content Include="Images\Cards\Spades\4s.png" />
-    <Content Include="Images\Cards\Spades\5s.png" />
-    <Content Include="Images\Cards\Spades\6s.png" />
-    <Content Include="Images\Cards\Spades\7s.png" />
-    <Content Include="Images\Cards\Spades\8s.png" />
-    <Content Include="Images\Cards\Spades\9s.png" />
-    <Content Include="Images\Cards\Spades\As.png" />
-    <Content Include="Images\Cards\Spades\Js.png" />
-    <Content Include="Images\Cards\Spades\Ks.png" />
-    <Content Include="Images\Cards\Spades\Qs.png" />
+    <Content Include="Images\Cards\Clubs_10.png" />
+    <Content Include="Images\Cards\Clubs_2.png" />
+    <Content Include="Images\Cards\Clubs_3.png" />
+    <Content Include="Images\Cards\Clubs_4.png" />
+    <Content Include="Images\Cards\Clubs_5.png" />
+    <Content Include="Images\Cards\Clubs_6.png" />
+    <Content Include="Images\Cards\Clubs_7.png" />
+    <Content Include="Images\Cards\Clubs_8.png" />
+    <Content Include="Images\Cards\Clubs_9.png" />
+    <Content Include="Images\Cards\Clubs_A.png" />
+    <Content Include="Images\Cards\Clubs_J.png" />
+    <Content Include="Images\Cards\Clubs_K.png" />
+    <Content Include="Images\Cards\Clubs_Q.png" />
+    <Content Include="Images\Cards\Diamonds_10.png" />
+    <Content Include="Images\Cards\Diamonds_2.png" />
+    <Content Include="Images\Cards\Diamonds_3.png" />
+    <Content Include="Images\Cards\Diamonds_4.png" />
+    <Content Include="Images\Cards\Diamonds_5.png" />
+    <Content Include="Images\Cards\Diamonds_6.png" />
+    <Content Include="Images\Cards\Diamonds_7.png" />
+    <Content Include="Images\Cards\Diamonds_8.png" />
+    <Content Include="Images\Cards\Diamonds_9.png" />
+    <Content Include="Images\Cards\Diamonds_A.png" />
+    <Content Include="Images\Cards\Diamonds_J.png" />
+    <Content Include="Images\Cards\Diamonds_K.png" />
+    <Content Include="Images\Cards\Diamonds_Q.png" />
+    <Content Include="Images\Cards\Hearts_10.png" />
+    <Content Include="Images\Cards\Hearts_2.png" />
+    <Content Include="Images\Cards\Hearts_3.png" />
+    <Content Include="Images\Cards\Hearts_4.png" />
+    <Content Include="Images\Cards\Hearts_5.png" />
+    <Content Include="Images\Cards\Hearts_6.png" />
+    <Content Include="Images\Cards\Hearts_7.png" />
+    <Content Include="Images\Cards\Hearts_8.png" />
+    <Content Include="Images\Cards\Hearts_9.png" />
+    <Content Include="Images\Cards\Hearts_A.png" />
+    <Content Include="Images\Cards\Hearts_J.png" />
+    <Content Include="Images\Cards\Hearts_K.png" />
+    <Content Include="Images\Cards\Hearts_Q.png" />
+    <Content Include="Images\Cards\Spades_10.png" />
+    <Content Include="Images\Cards\Spades_2.png" />
+    <Content Include="Images\Cards\Spades_3.png" />
+    <Content Include="Images\Cards\Spades_4.png" />
+    <Content Include="Images\Cards\Spades_5.png" />
+    <Content Include="Images\Cards\Spades_6.png" />
+    <Content Include="Images\Cards\Spades_7.png" />
+    <Content Include="Images\Cards\Spades_8.png" />
+    <Content Include="Images\Cards\Spades_9.png" />
+    <Content Include="Images\Cards\Spades_A.png" />
+    <Content Include="Images\Cards\Spades_J.png" />
+    <Content Include="Images\Cards\Spades_K.png" />
+    <Content Include="Images\Cards\Spades_Q.png" />
     <Content Include="Images\Carpet.png" />
     <Content Include="Images\Diller.png" />
     <Content Include="Images\Players\Player1.png" />
@@ -158,12 +164,6 @@
     <Content Include="Images\_other_\buryy-fon.jpg" />
     <Content Include="Images\_other_\poker-table.png" />
     <Content Include="Images\_other_\YqKZ9.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Model\Model.csproj">
-      <Project>{B4194085-BFE3-4A6F-ADBB-678CF8610372}</Project>
-      <Name>Model</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

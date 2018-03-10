@@ -10,6 +10,11 @@ namespace Model
     public class ServerPlayerInfo : PlayerInfo
     {
         public int seat;
+        public bool diller;
+        public bool yourMove;
+        public Card card1;
+        public Card card2;
+
 
         public ServerPlayerInfo() :
             base()

@@ -5,6 +5,8 @@
         Fold,
         Check,
         Call,
-        Raise
+        Raise,
+
+        Exit
     }
 }
