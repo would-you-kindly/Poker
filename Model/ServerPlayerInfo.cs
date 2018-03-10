@@ -15,7 +15,7 @@ namespace Model
         public bool yourMove;
         public Card card1;
         public Card card2;
-
+        public int currentRate;
 
         public ServerPlayerInfo() :
             base()
@@ -25,6 +25,7 @@ namespace Model
             yourMove = false;
             card1 = null;
             card2 = null;
+            currentRate = 0;
         }
 
         public ServerPlayerInfo(string name, int money, string endPoint, int seat) :

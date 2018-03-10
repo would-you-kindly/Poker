@@ -21,10 +21,11 @@ namespace HoldemServer
         // Колода карт 
         CardDeck deck;
 
-        // Очередь сообщений для уведомления всех текущих клиентов о новом игроке
+        // Очередь сообщений для широковещательного уведомления
         MessageQueue queue;
 
-
+        // Игра (текущая раздача)
+        Game game;
 
         TcpListener listener;
         Socket tcpSocket;
@@ -35,6 +36,8 @@ namespace HoldemServer
         {
             players = new List<ServerPlayerInfo>();
             deck = new CardDeck();
+            game = new Game();
+
             listener = new TcpListener(Helper.port);
             clients = new List<Thread>();
 
@@ -53,6 +56,12 @@ namespace HoldemServer
                 tcpSocket = listener.AcceptSocket();
                 clients.Add(new Thread(HandleClient));
                 clients[clients.Count - 1].Start();
+
+                // Начинаем новую раздачу, когда за столом окажется минимум два игрока
+                if (clients.Count >= 2)
+                {
+                    game.StartNewGame(new List<ServerPlayerInfo>(players));
+                }
             }
         }
 
@@ -78,21 +87,15 @@ namespace HoldemServer
 
         private int FindSeat()
         {
-            int seat = 0;
-
-            foreach (ServerPlayerInfo player in players)
+            for (int i = 0; i < Helper.maxPlayers; i++)
             {
-                if (player.seat == seat)
+                if (players.Find(p => p.seat == i) == null)
                 {
-                    seat++;
-                }
-                else
-                {
-                    return seat;
+                    return i;
                 }
             }
 
-            return seat;
+            return 0;
         }
 
         private void HandleClient()
@@ -121,12 +124,18 @@ namespace HoldemServer
                     switch (turn.turnType)
                     {
                         case TurnType.Fold:
-                            break;
                         case TurnType.Check:
-                            break;
                         case TurnType.Call:
-                            break;
                         case TurnType.Raise:
+                            // Получаем обновленную информацию об участвовавших в раздаче игроках
+                            var involvedPlayers = game.MakeTurn(seat, turn);
+                            foreach (var player in players)
+                            {
+                                if (true)
+                                {
+                                    //
+                                }
+                            }
                             break;
                         case TurnType.Exit:
                             ServerPlayerInfo info = players.Find(player => player.seat == seat);
