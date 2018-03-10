@@ -9,12 +9,11 @@ namespace Model
     public class CardDeck
     {
         // Если карта выдана, то true, иначе false
-        public Dictionary<int, bool> deck;
+        public Dictionary<string, bool> deck;
 
         public CardDeck()
         {
-            deck = new Dictionary<int, bool>((int)CardSuit.Count * (int)CardQuality.Count);
-            Reset();
+            deck = new Dictionary<string, bool>((int)CardSuit.Count * (int)CardQuality.Count);
         }
 
         public Card GetRandomCard()
@@ -28,10 +27,10 @@ namespace Model
             {
                 suit = (CardSuit)random.Next((int)CardSuit.Count);
                 quality = (CardQuality)random.Next((int)CardQuality.Count);
-            } while (deck.ContainsKey((int)suit | (int)quality) && deck[(int)suit | (int)quality]);
+            } while (deck.ContainsKey(suit.ToString() + quality.ToString()) && deck[suit.ToString() + quality.ToString()]);
 
             // Запоминаем, что выбранная карта выдана
-            deck.Add((int)suit | (int)quality, true);
+            deck.Add(suit.ToString() + quality.ToString(), true);
 
             return new Card(suit, quality);
         }
