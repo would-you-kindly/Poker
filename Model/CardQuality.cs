@@ -8,8 +8,7 @@ namespace Model
 {
     public enum CardQuality
     {
-        _A,
-        _2,
+        _2 = 0,
         _3,
         _4,
         _5,
@@ -21,6 +20,7 @@ namespace Model
         _J,
         _Q,
         _K,
+        _A,
 
         Count
     }

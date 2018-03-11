@@ -59,7 +59,7 @@ namespace HoldemServer
 
                 // Начинаем новую раздачу, когда за столом окажется минимум два игрока
                 // TODO: зависает при присоединении третьего, нужно сдеать в отдельном потоке
-                if (clients.Count >= 2)
+                if (clients.Count >= 2 && !game.playing)
                 {
                     Thread.Sleep(3000);
                     var involvedPlayers = game.StartNewGame(new List<ServerPlayerInfo>(players));
@@ -136,6 +136,7 @@ namespace HoldemServer
                             UpdatePlayersFromInvolved(involvedPlayers);
                             break;
                         case TurnType.Exit:
+                            game.involvedPlayers.Find(p => p.seat == seat).isPlaying = false;
                             ServerPlayerInfo info = players.Find(player => player.seat == seat);
                             players.Remove(info);
                             Console.WriteLine($"Player {info.name} leaves game");
@@ -164,7 +165,6 @@ namespace HoldemServer
 
         private void GiveCards(int seat)
         {
-            // TODO: пока карты могут повторяться
             ServerPlayerInfo player = players.Find(p => p.seat == seat);
             player.card1 = deck.GetRandomCard();
             player.card2 = deck.GetRandomCard();

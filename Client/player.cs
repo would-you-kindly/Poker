@@ -45,7 +45,6 @@ namespace Client
 
         public Turn Fold()
         {
-            MessageBox.Show(client.Client.LocalEndPoint.ToString());
             return new Turn(TurnType.Fold);
         }
 

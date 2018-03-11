@@ -67,30 +67,39 @@ namespace Client
 
         private void ReceiveCards()
         {
-            int ClientHandleMailSlot;   // дескриптор мэйлслота
-            ClientHandleMailSlot = Mailslot.CreateMailslot("\\\\.\\mailslot\\ReceiveCardsMailslot", 0, Types.MAILSLOT_WAIT_FOREVER, 0);
+            int clientMailslotHandle;   // дескриптор мэйлслота
+            clientMailslotHandle = Mailslot.CreateMailslot("\\\\.\\mailslot\\ReceiveCardsMailslot", 0, Types.MAILSLOT_WAIT_FOREVER, 0);
             Card card = new Card();     // прочитанное сообщение
             Card prevCard = new Card(); // для проверки в случае, когда отправляется одно и то же сообщение несколько раз
-            int MailslotSize = 0;       // максимальный размер сообщения
-            int lpNextSize = 0;         // размер следующего сообщения
-            int MessageCount = 0;       // количество сообщений в мэйлслоте
+            int mailslotSize = 0;       // максимальный размер сообщения
+            int nextMessageSize = 0;    // размер следующего сообщения
+            int messageCount = 0;       // количество сообщений в мэйлслоте
             uint realBytesReaded = 0;   // количество реально прочитанных из мэйлслота байтов
 
             while (work)
             {
-                Mailslot.GetMailslotInfo(ClientHandleMailSlot, MailslotSize, ref lpNextSize, ref MessageCount, 0);
-                if (MessageCount > 0)
+                Mailslot.GetMailslotInfo(clientMailslotHandle, mailslotSize, ref nextMessageSize, ref messageCount, 0);
+                if (messageCount > 0)
                 {
-                    for (int i = 0; i < MessageCount; i++)
+                    for (int i = 0; i < messageCount; i++)
                     {
-                        byte[] bytes = new byte[400];                       // буфер прочитанных из мэйлслота байтов
-                        Mailslot.FlushFileBuffers(ClientHandleMailSlot);    // "принудительная" запись данных, расположенные в буфере операционной системы, в файл мэйлслота
-                        Mailslot.ReadFile(ClientHandleMailSlot, bytes, 400, ref realBytesReaded, 0);      // считываем последовательность байтов из мэйлслота в буфер buff
+
+                        byte[] bytes = new byte[400];
+                        // "Принудительная" запись данных, расположенные в буфере операционной системы, в файл мэйлслота
+                        Mailslot.FlushFileBuffers(clientMailslotHandle);
+                        Mailslot.ReadFile(clientMailslotHandle, bytes, 400, ref realBytesReaded, 0);
                         BinaryFormatter formatter = new BinaryFormatter();
                         using (MemoryStream memory = new MemoryStream(bytes))
                         {
                             card = (Card)formatter.Deserialize(memory);
-                            if (card != prevCard)
+                            // Если пришла карта с CardSuit.Count, CardQuality.Count (признак окончания раздачи) очищаем столл
+                            if (card.Equals(new Card(CardSuit.Count, CardQuality.Count)))
+                            {
+                                CleanTable();
+                                continue;
+                            }
+
+                            if (!card.Equals(prevCard))
                             {
                                 prevCard = card;
                             }
@@ -136,6 +145,18 @@ namespace Client
                     }
                 }
             }
+        }
+
+        private void CleanTable()
+        {
+            Invoke(new MethodInvoker(() =>
+            {
+                pbFlop1.Image = null;
+                pbFlop2.Image = null;
+                pbFlop3.Image = null;
+                pbTurn.Image = null;
+                pbRiver.Image = null;
+            }));                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
         }
 
         private void ReceiveServerPlayerInfo()

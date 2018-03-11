@@ -76,5 +76,19 @@ namespace Model
 
             return card;
         }
+
+        public override bool Equals(object obj)
+        {
+            Card otherCard = (Card)obj;
+
+            if (this.suit == otherCard.suit && this.quality == otherCard.quality)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

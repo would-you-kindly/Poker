@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Model
@@ -24,14 +25,15 @@ namespace Model
 
     public class Game
     {
-        List<ServerPlayerInfo> involvedPlayers;
+        public List<ServerPlayerInfo> involvedPlayers;
         int littleBlind = 10;
         int bigBlind = 20;
         int biggestRate;
-        bool playing;
+        public bool playing;
         int bank;
         GameState state;
         CardDeck _deck;
+        List<Card> cardsOnTable;
 
         // Дескриптор мэйлслота для раздачи карт на стол (flop, turn, river)
         private Int32 mailslotHandle;
@@ -42,7 +44,14 @@ namespace Model
         public Game(CardDeck deck)
         {
             involvedPlayers = new List<ServerPlayerInfo>();
+            cardsOnTable = new List<Card>(5);
+            cardsOnTable.Add(null);
+            cardsOnTable.Add(null);
+            cardsOnTable.Add(null);
+            cardsOnTable.Add(null);
+            cardsOnTable.Add(null);
             _deck = deck;
+            playing = false;
         }
 
         public List<ServerPlayerInfo> StartNewGame(List<ServerPlayerInfo> involvedPlayers)
@@ -72,6 +81,13 @@ namespace Model
 
             // Подключаемся к mailslot
             ConnectMailslot();
+
+            Console.WriteLine("New game started");
+            Console.WriteLine("The players are:");
+            foreach (var player in involvedPlayers)
+            {
+                Console.WriteLine($"Player {player.name} with ${player.money}");
+            }
 
             // Возвращаем обновленную информацию об игроках после старта игры
             return involvedPlayers;
@@ -104,7 +120,13 @@ namespace Model
             playing = false;
             biggestRate = 0;
             bank = 0;
-            Mailslot.CloseHandle(mailslotHandle);     // закрываем дескриптор мэйлслота
+            for (int i = 0; i < cardsOnTable.Count; i++)
+            {
+                cardsOnTable[i] = null;
+            }
+            SendGameEnd();
+            Thread.Sleep(500);
+            Mailslot.CloseHandle(mailslotHandle);
         }
 
         // Проверяем, закончили ли игроки делать ставки (у всех равны)
@@ -188,6 +210,15 @@ namespace Model
                     break;
             }
 
+            // Проверяем, остался ли только один игрок в данной раздаче
+            if (involvedPlayers.Count(p => p.isPlaying) == 1)
+            {
+                SetWinner(involvedPlayers.Where(p => p.isPlaying).First().seat);
+                EndGame();
+                return involvedPlayers;
+            }
+
+            // Проверяем, все ли сделали окончательные ставки в текущем круге
             if (ChechRatesFinished())
             {
                 // Переводим игру в следующее состояние
@@ -207,22 +238,19 @@ namespace Model
                         GiveFlop();
                         break;
                     case GameState.Turn:
-                        // Считаем все ставки (банк)
                         ComputeRates();
-                        // Обнуляем наибольшую ставку
                         biggestRate = 0;
-                        // Раздаем четвертую карту (turn)
                         GiveTurn();
                         break;
                     case GameState.River:
-                        // Считаем все ставки (банк)
                         ComputeRates();
-                        // Обнуляем наибольшую ставку
                         biggestRate = 0;
-                        // Раздаем пятую карту (river)
                         GiveRiver();
                         break;
                     case GameState.Count:
+                        // Определяем победителя
+                        SetWinner(FindWinner());
+                        EndGame();
                         break;
                     default:
                         break;
@@ -230,6 +258,29 @@ namespace Model
             }
 
             return involvedPlayers;
+        }
+
+        private void SetWinner(int seat)
+        {
+            ServerPlayerInfo player = involvedPlayers.Find(p => p.seat == seat);
+            player.money += bank;
+            Console.WriteLine($"Player {player.name} wins and takes {bank}");
+        }
+
+        private int FindWinner()
+        {
+            Dictionary<int, int> combinationsWeights = new Dictionary<int, int>();
+            // Ищем максимальную комбинаю среди игроков, которые еще не скинули карты
+            foreach (var player in involvedPlayers.Where(p => p.isPlaying))
+            {
+                combinationsWeights.Add(player.seat, new Combination(player.card1, player.card2,
+                    cardsOnTable[0], cardsOnTable[1], cardsOnTable[2], cardsOnTable[3], cardsOnTable[4]).ComputeWeight());
+            }
+
+            var pair = combinationsWeights.Max();
+            int winner = pair.Key;
+
+            return winner;
         }
 
         private void GiveRiver()
@@ -248,8 +299,10 @@ namespace Model
                 bytes = memory.ToArray();
                 // Выполняем запись последовательности байт в мэйлслот
                 Mailslot.WriteFile(mailslotHandle, bytes, Convert.ToUInt32(bytes.Length), ref bytesWritten, 0);
-                Console.WriteLine($"Turn is {river.ToString()}");
+                Console.WriteLine($"River is {river.ToString()}");
             }
+
+            cardsOnTable[4] = river;
         }
 
         private void GiveTurn()
@@ -270,6 +323,8 @@ namespace Model
                 Mailslot.WriteFile(mailslotHandle, bytes, Convert.ToUInt32(bytes.Length), ref bytesWritten, 0);
                 Console.WriteLine($"Turn is {turn.ToString()}");
             }
+
+            cardsOnTable[3] = turn;
         }
 
         private void GiveFlop()
@@ -314,6 +369,30 @@ namespace Model
                 bytes = memory.ToArray();
                 Mailslot.WriteFile(mailslotHandle, bytes, Convert.ToUInt32(bytes.Length), ref bytesWritten, 0);
                 Console.WriteLine($"Flop3 is {flop3.ToString()}");
+            }
+
+            cardsOnTable[0] = flop1;
+            cardsOnTable[1] = flop2;
+            cardsOnTable[2] = flop3;
+        }
+
+        // Отправляем несуществующую карту как признак окончания раздачи
+        private void SendGameEnd()
+        {
+            // Количество реально записанных в мэйлслот байт
+            uint bytesWritten = 0;
+
+            Card endGame = new Card(CardSuit.Count, CardQuality.Count);
+
+            BinaryFormatter formatter = new BinaryFormatter();
+            using (MemoryStream memory = new MemoryStream())
+            {
+                byte[] bytes = new byte[400];
+                // Выдаем пятую карту (river)
+                formatter.Serialize(memory, endGame);
+                bytes = memory.ToArray();
+                // Выполняем запись последовательности байт в мэйлслот
+                Mailslot.WriteFile(mailslotHandle, bytes, Convert.ToUInt32(bytes.Length), ref bytesWritten, 0);
             }
         }
 
