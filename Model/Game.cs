@@ -253,6 +253,11 @@ namespace Model
                 // Переводим игру в следующее состояние
                 state = (GameState)((int)(state + 1) % (int)GameState.Count);
 
+                foreach (var player in involvedPlayers)
+                {
+                    player.madeTurn = false;
+                }
+
                 switch (state)
                 {
                     case GameState.FirtsBlind:
@@ -292,6 +297,7 @@ namespace Model
         private void SetWinner(int seat)
         {
             ServerPlayerInfo player = involvedPlayers.Find(p => p.seat == seat);
+            player.isWinner = true;
             player.money += bank;
             Console.WriteLine($"Player {player.name} wins and takes {bank}");
         }

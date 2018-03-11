@@ -21,7 +21,6 @@ namespace Client
         bool work = true;
 
         MessageQueue queue;
-        string multicastAddress = "234.1.1.1:8000";
         string path = ".\\private$\\MulticastTest" + new Random().Next(10000);
 
         public PokerClientForm()
@@ -49,7 +48,7 @@ namespace Client
             }
 
             queue.Formatter = new XmlMessageFormatter(new Type[] { typeof(List<ServerPlayerInfo>) });
-            queue.MulticastAddress = multicastAddress;
+            queue.MulticastAddress = Helper.messageQueueAddress;
         }
 
         private void StartGame()
@@ -254,10 +253,89 @@ namespace Client
             if (me.yourMove)
             {
                 SwitchButtons(true);
+                DefineCallCheckButton();
             }
             else
             {
                 SwitchButtons(false);
+            }
+        }
+
+        private void DefineCallCheckButton()
+        {
+            List<int> rates = new List<int>();
+            if (lblPlayer1Rate.Text != "")
+            {
+                rates.Add(int.Parse(lblPlayer1Rate.Text));
+            }
+            if (lblPlayer2Rate.Text != "")
+            {
+                rates.Add(int.Parse(lblPlayer2Rate.Text));
+            }
+            if (lblPlayer3Rate.Text != "")
+            {
+                rates.Add(int.Parse(lblPlayer3Rate.Text));
+            }
+            if (lblPlayer4Rate.Text != "")
+            {
+                rates.Add(int.Parse(lblPlayer4Rate.Text));
+            }
+            if (lblPlayer5Rate.Text != "")
+            {
+                rates.Add(int.Parse(lblPlayer5Rate.Text));
+            }
+            if (lblPlayer6Rate.Text != "")
+            {
+                rates.Add(int.Parse(lblPlayer6Rate.Text));
+            }
+
+            // Если все ставки равны
+            bool check = false;
+            for (int i = 0; i < rates.Count - 1; i++)
+            {
+                if (rates[i] == rates[i + 1])
+                {
+                    check = true;
+                }
+                else
+                {
+                    check = false;
+                    break;
+                }
+            }
+
+            if (check)
+            {
+                try
+                {
+                    Invoke(new MethodInvoker(() =>
+                    {
+                        btnCallCheck.Text = "Check";
+                    }));
+                }
+                catch (Exception exc)
+                {
+                    //
+                }
+
+            }
+            else
+            {
+                rates.Sort();
+                try
+                {
+                    int max = rates[rates.Count - 1];
+                    int secondMax = rates[rates.Count - 2];
+                    Invoke(new MethodInvoker(() =>
+                    {
+                        btnCallCheck.Text = "Call " + (max - secondMax);
+                    }));
+                }
+                catch (Exception exc)
+                {
+                    //
+                }
+
             }
         }
 
@@ -275,7 +353,9 @@ namespace Client
                             lblPlayer1Money.Text = info.money.ToString();
                             pbPlayer1Card1.Image = SetCard1(info);
                             pbPlayer1Card2.Image = SetCard2(info);
-                            lblPlayer1Rate.Text = info.currentRate.ToString();
+                            lblPlayer1Rate.Text = info.isPlaying ? info.currentRate.ToString() : "";
+                            pbPlayer1.Image = Image.FromFile("../../Images/Players/Player1.png");
+                            pbPlayer1Diller.Image = (info.diller ? Image.FromFile("../../Images/Diller.png") : null);
                         }));
                     }
                     catch (Exception exc)
@@ -293,7 +373,9 @@ namespace Client
                             lblPlayer2Money.Text = info.money.ToString();
                             pbPlayer2Card1.Image = SetCard1(info);
                             pbPlayer2Card2.Image = SetCard2(info);
-                            lblPlayer2Rate.Text = info.currentRate.ToString();
+                            lblPlayer2Rate.Text = info.isPlaying ? info.currentRate.ToString() : "";
+                            pbPlayer2.Image = Image.FromFile("../../Images/Players/Player2.png");
+                            pbPlayer2Diller.Image = (info.diller ? Image.FromFile("../../Images/Diller.png") : null);
                         }));
                     }
                     catch (Exception exc)
@@ -310,7 +392,9 @@ namespace Client
                             lblPlayer3Money.Text = info.money.ToString();
                             pbPlayer3Card1.Image = SetCard1(info);
                             pbPlayer3Card2.Image = SetCard2(info);
-                            lblPlayer3Rate.Text = info.currentRate.ToString();
+                            lblPlayer3Rate.Text = info.isPlaying ? info.currentRate.ToString() : "";
+                            pbPlayer3.Image = Image.FromFile("../../Images/Players/Player3.png");
+                            pbPlayer3Diller.Image = (info.diller ? Image.FromFile("../../Images/Diller.png") : null);
                         }));
                     }
                     catch (Exception exc)
@@ -327,7 +411,9 @@ namespace Client
                             lblPlayer4Money.Text = info.money.ToString();
                             pbPlayer4Card1.Image = SetCard1(info);
                             pbPlayer4Card2.Image = SetCard2(info);
-                            lblPlayer4Rate.Text = info.currentRate.ToString();
+                            lblPlayer4Rate.Text = info.isPlaying ? info.currentRate.ToString() : "";
+                            pbPlayer4.Image = Image.FromFile("../../Images/Players/Player4.png");
+                            pbPlayer4Diller.Image = (info.diller ? Image.FromFile("../../Images/Diller.png") : null);
                         }));
                     }
                     catch (Exception exc)
@@ -344,7 +430,9 @@ namespace Client
                             lblPlayer5Money.Text = info.money.ToString();
                             pbPlayer5Card1.Image = SetCard1(info);
                             pbPlayer5Card2.Image = SetCard2(info);
-                            lblPlayer5Rate.Text = info.currentRate.ToString();
+                            lblPlayer5Rate.Text = info.isPlaying ? info.currentRate.ToString() : "";
+                            pbPlayer5.Image = Image.FromFile("../../Images/Players/Player5.png");
+                            pbPlayer5Diller.Image = (info.diller ? Image.FromFile("../../Images/Diller.png") : null);
                         }));
                     }
                     catch (Exception exc)
@@ -361,7 +449,9 @@ namespace Client
                             lblPlayer6Money.Text = info.money.ToString();
                             pbPlayer6Card1.Image = SetCard1(info);
                             pbPlayer6Card2.Image = SetCard2(info);
-                            lblPlayer6Rate.Text = info.currentRate.ToString();
+                            lblPlayer6Rate.Text = info.isPlaying ? info.currentRate.ToString() : "";
+                            pbPlayer6.Image = Image.FromFile("../../Images/Players/Player6.png");
+                            pbPlayer6Diller.Image = (info.diller ? Image.FromFile("../../Images/Diller.png") : null);
                         }));
                     }
                     catch (Exception exc)
@@ -389,6 +479,8 @@ namespace Client
                             pbPlayer1Card1.Image = null;
                             pbPlayer1Card2.Image = null;
                             lblPlayer1Rate.Text = "";
+                            pbPlayer1.Image = null;
+                            pbPlayer1Diller.Image = null;
                         }));
                     }
                     catch (Exception exc)
@@ -408,6 +500,8 @@ namespace Client
                             pbPlayer2Card1.Image = null;
                             pbPlayer2Card2.Image = null;
                             lblPlayer2Rate.Text = "";
+                            pbPlayer2.Image = null;
+                            pbPlayer3Diller.Image = null;
                         }));
                     }
                     catch (Exception exc)
@@ -425,6 +519,8 @@ namespace Client
                             pbPlayer3Card1.Image = null;
                             pbPlayer3Card2.Image = null;
                             lblPlayer3Rate.Text = "";
+                            pbPlayer3.Image = null;
+                            pbPlayer3Diller.Image = null;
                         }));
                     }
                     catch (Exception exc)
@@ -442,6 +538,8 @@ namespace Client
                             pbPlayer4Card1.Image = null;
                             pbPlayer4Card2.Image = null;
                             lblPlayer4Rate.Text = "";
+                            pbPlayer4.Image = null;
+                            pbPlayer4Diller.Image = null;
                         }));
                     }
                     catch (Exception exc)
@@ -459,6 +557,8 @@ namespace Client
                             pbPlayer5Card1.Image = null;
                             pbPlayer5Card2.Image = null;
                             lblPlayer5Rate.Text = "";
+                            pbPlayer5.Image = null;
+                            pbPlayer5Diller.Image = null;
                         }));
                     }
                     catch (Exception exc)
@@ -476,6 +576,8 @@ namespace Client
                             pbPlayer6Card1.Image = null;
                             pbPlayer6Card2.Image = null;
                             lblPlayer6Rate.Text = "";
+                            pbPlayer6.Image = null;
+                            pbPlayer6Diller.Image = null;
                         }));
                     }
                     catch (Exception exc)
@@ -679,8 +781,16 @@ namespace Client
 
         private void btnCallCheck_Click(object sender, EventArgs e)
         {
-            Turn turn = player.Call();
-            SendPlayerTurn(turn);
+            if (btnCallCheck.Text.Contains("Call"))
+            {
+                Turn turn = player.Call();
+                SendPlayerTurn(turn);
+            }
+            else if (btnCallCheck.Text == "Check")
+            {
+                Turn turn = player.Check();
+                SendPlayerTurn(turn);
+            }
         }
 
         private void btnRaise_Click(object sender, EventArgs e)

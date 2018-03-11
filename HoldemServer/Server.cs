@@ -42,7 +42,7 @@ namespace HoldemServer
             listener = new TcpListener(Helper.port);
             clients = new List<Thread>();
 
-            queue = new MessageQueue("FormatName:MULTICAST=234.1.1.1:8000");
+            queue = new MessageQueue("FormatName:MULTICAST=" + Helper.messageQueueAddress);
             queue.Formatter = new XmlMessageFormatter(new Type[] { typeof(List<ServerPlayerInfo>) });
 
             Console.WriteLine(Dns.GetHostEntry(Dns.GetHostName()).AddressList[0].MapToIPv4());
@@ -77,7 +77,7 @@ namespace HoldemServer
                 if (clients.Count >= 2 && !game.playing)
                 {
                     Thread.Sleep(2000);
-                    
+
                     var involvedPlayers = game.StartNewGame(new List<ServerPlayerInfo>(players));
                     UpdatePlayersFromInvolved(involvedPlayers);
                     SendServerPlayerInfoByQueue();
