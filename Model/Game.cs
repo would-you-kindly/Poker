@@ -35,6 +35,7 @@ namespace Model
         CardDeck _deck;
         List<Card> cardsOnTable;
         bool mailslotConnected = false;
+        int diller = 0;
 
         // Дескриптор мэйлслота для раздачи карт на стол (flop, turn, river)
         private Int32 mailslotHandle;
@@ -60,24 +61,32 @@ namespace Model
             playing = true;
             state = GameState.FirtsBlind;
 
-            // Говорим, что в начале игры все участвуют в раздаче
+            // Проводим приготовляния перед началом игры
             foreach (var player in involvedPlayers)
             {
                 player.isPlaying = true;
+                player.yourMove = false;
+                player.isWinner = false;
+                player.currentRate = 0;
+                player.diller = false;
+                player.madeTurn = false;
+                // Раздаем карты участвующим игрокам
+                GiveCards(player);
             }
 
             // Запоминаем участвующих игроков в данной раздаче
             this.involvedPlayers = involvedPlayers;
-            involvedPlayers[0 % involvedPlayers.Count].diller = true;
-            involvedPlayers[1 % involvedPlayers.Count].currentRate = littleBlind;
-            involvedPlayers[2 % involvedPlayers.Count].currentRate = bigBlind;
-            involvedPlayers[3 % involvedPlayers.Count].yourMove = true;
+            involvedPlayers[(diller + 0) % involvedPlayers.Count].diller = true;
+            involvedPlayers[(diller + 1) % involvedPlayers.Count].currentRate = littleBlind;
+            involvedPlayers[(diller + 2) % involvedPlayers.Count].currentRate = bigBlind;
+            involvedPlayers[(diller + 3) % involvedPlayers.Count].yourMove = true;
+            diller = (diller + 1) % involvedPlayers.Count;
 
             // Запоминаем наибольшую ставку на столе
             biggestRate = bigBlind;
 
             // Обнуляем сумму всех ставок
-            bank = 0;
+            bank = littleBlind + bigBlind;
 
             // Подключаемся к mailslot
             if (!mailslotConnected)
@@ -94,6 +103,12 @@ namespace Model
 
             // Возвращаем обновленную информацию об игроках после старта игры
             return involvedPlayers;
+        }
+
+        private void GiveCards(ServerPlayerInfo player)
+        {
+            player.card1 = _deck.GetRandomCard();
+            player.card2 = _deck.GetRandomCard();
         }
 
         private void ConnectMailslot()
@@ -124,6 +139,7 @@ namespace Model
             playing = false;
             biggestRate = 0;
             bank = 0;
+            _deck.Reset();
             for (int i = 0; i < cardsOnTable.Count; i++)
             {
                 cardsOnTable[i] = null;
@@ -143,6 +159,14 @@ namespace Model
                     continue;
                 }
                 if (involvedPlayers[i].currentRate != involvedPlayers[i + 1].currentRate)
+                {
+                    return false;
+                }
+            }
+
+            foreach (var player in involvedPlayers)
+            {
+                if (!player.madeTurn)
                 {
                     return false;
                 }
@@ -212,6 +236,8 @@ namespace Model
                 default:
                     break;
             }
+
+            involvedPlayers[playerIndex].madeTurn = true;
 
             // Проверяем, остался ли только один игрок в данной раздаче
             if (involvedPlayers.Count(p => p.isPlaying) == 1)

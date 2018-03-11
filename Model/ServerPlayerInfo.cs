@@ -18,6 +18,7 @@ namespace Model
         public int currentRate;
         public bool isPlaying; // Участвует в раздаче (не скинул карты)
         public bool isWinner;
+        public bool madeTurn;
 
         public ServerPlayerInfo() :
             base()
@@ -30,6 +31,7 @@ namespace Model
             currentRate = 0;
             isPlaying = false;
             isWinner = false;
+            madeTurn = false;
         }
 
         public ServerPlayerInfo(string name, int money, string endPoint, int seat) :

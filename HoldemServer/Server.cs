@@ -77,12 +77,8 @@ namespace HoldemServer
                 if (clients.Count >= 2 && !game.playing)
                 {
                     Thread.Sleep(2000);
+                    
                     var involvedPlayers = game.StartNewGame(new List<ServerPlayerInfo>(players));
-                    // Раздаем карты участвующим игрокам
-                    foreach (var player in involvedPlayers)
-                    {
-                        GiveCards(player.seat);
-                    }
                     UpdatePlayersFromInvolved(involvedPlayers);
                     SendServerPlayerInfoByQueue();
                 }
@@ -181,13 +177,6 @@ namespace HoldemServer
                     players[i] = player;
                 }
             }
-        }
-
-        private void GiveCards(int seat)
-        {
-            ServerPlayerInfo player = players.Find(p => p.seat == seat);
-            player.card1 = deck.GetRandomCard();
-            player.card2 = deck.GetRandomCard();
         }
 
         private void SendServerPlayerInfoByQueue()
