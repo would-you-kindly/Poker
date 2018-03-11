@@ -25,6 +25,7 @@ namespace HoldemServer
         MessageQueue queue;
 
         // Игра (текущая раздача)
+        Thread gameThread;
         Game game;
 
         TcpListener listener;
@@ -59,10 +60,29 @@ namespace HoldemServer
 
                 // Начинаем новую раздачу, когда за столом окажется минимум два игрока
                 // TODO: зависает при присоединении третьего, нужно сдеать в отдельном потоке
+
+                // Создаем поток для инициализации новых раздач
+                if (gameThread == null)
+                {
+                    gameThread = new Thread(StartGame);
+                    gameThread.Start();
+                }
+            }
+        }
+
+        private void StartGame()
+        {
+            while (work)
+            {
                 if (clients.Count >= 2 && !game.playing)
                 {
-                    Thread.Sleep(3000);
+                    Thread.Sleep(2000);
                     var involvedPlayers = game.StartNewGame(new List<ServerPlayerInfo>(players));
+                    // Раздаем карты участвующим игрокам
+                    foreach (var player in involvedPlayers)
+                    {
+                        GiveCards(player.seat);
+                    }
                     UpdatePlayersFromInvolved(involvedPlayers);
                     SendServerPlayerInfoByQueue();
                 }
@@ -106,7 +126,7 @@ namespace HoldemServer
         {
             // Присоединение нового клиента
             int seat = ReceivePlayerInfo();
-            GiveCards(seat);
+            //GiveCards(seat);
             SendServerPlayerInfoByQueue();
 
 

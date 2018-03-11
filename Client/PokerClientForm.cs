@@ -156,7 +156,7 @@ namespace Client
                 pbFlop3.Image = null;
                 pbTurn.Image = null;
                 pbRiver.Image = null;
-            }));                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+            }));
         }
 
         private void ReceiveServerPlayerInfo()
@@ -492,7 +492,7 @@ namespace Client
         {
             string filename = "";
             // Устанавливаем карты так, чтобы клиент мог видеть только свои
-            if (info.endPoint.Equals(player.client.Client.LocalEndPoint.ToString()))
+            if (info.card1 != null && info.endPoint.Equals(player.client.Client.LocalEndPoint.ToString()))
             {
                 filename = "../../Images/Cards/" + info.card1.suit.ToString() + info.card1.quality.ToString() + ".png";
             }
@@ -507,7 +507,7 @@ namespace Client
         {
             string filename = "";
             // Устанавливаем карты так, чтобы клиент мог видеть только свои
-            if (info.endPoint.Equals(player.client.Client.LocalEndPoint.ToString()))
+            if (info.card2 != null && info.endPoint.Equals(player.client.Client.LocalEndPoint.ToString()))
             {
                 filename = "../../Images/Cards/" + info.card2.suit.ToString() + info.card2.quality.ToString() + ".png";
             }

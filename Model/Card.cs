@@ -26,7 +26,7 @@ namespace Model
 
         public override string ToString()
         {
-            string card = suit.ToString();
+            string card = suit.ToString() + " ";
 
             switch (quality)
             {

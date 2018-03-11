@@ -34,11 +34,11 @@ namespace Model
         GameState state;
         CardDeck _deck;
         List<Card> cardsOnTable;
+        bool mailslotConnected = false;
 
         // Дескриптор мэйлслота для раздачи карт на стол (flop, turn, river)
         private Int32 mailslotHandle;
         private string mailslotName = "\\\\*\\mailslot\\ReceiveCardsMailslot";
-
 
 
         public Game(CardDeck deck)
@@ -80,9 +80,12 @@ namespace Model
             bank = 0;
 
             // Подключаемся к mailslot
-            ConnectMailslot();
+            if (!mailslotConnected)
+            {
+                ConnectMailslot();
+            }
 
-            Console.WriteLine("New game started");
+            Console.WriteLine("New game started!");
             Console.WriteLine("The players are:");
             foreach (var player in involvedPlayers)
             {
@@ -102,6 +105,7 @@ namespace Model
                     Types.EFileAccess.GenericWrite, Types.EFileShare.Write, 0, Types.ECreationDisposition.CreateAlways, 0, 0);
                 if (mailslotHandle != -1)
                 {
+                    mailslotConnected = true;
                     Console.WriteLine("Соединение с мейлслотом прошло успешно");
                 }
                 else
@@ -125,8 +129,7 @@ namespace Model
                 cardsOnTable[i] = null;
             }
             SendGameEnd();
-            Thread.Sleep(500);
-            Mailslot.CloseHandle(mailslotHandle);
+            //Mailslot.CloseHandle(mailslotHandle);
         }
 
         // Проверяем, закончили ли игроки делать ставки (у всех равны)

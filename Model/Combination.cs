@@ -17,7 +17,8 @@ namespace Model
         const int threeWeight = twoPairsWeight * 5;
         const int straightWeight = threeWeight * 5;
         const int flashWeight = straightWeight * 5;
-        const int fourWeight = flashWeight * 5;
+        const int fullHouseWeight = flashWeight * 5;
+        const int fourWeight = fullHouseWeight * 5;
 
         public Combination()
         {
@@ -48,6 +49,10 @@ namespace Model
             {
                 weight += fourWeight;
             }
+            else if (CheckFullHouse())
+            {
+                weight += fullHouseWeight;
+            }
             else if (CheckFlash())
             {
                 weight += flashWeight;
@@ -77,6 +82,7 @@ namespace Model
 
             return weight;
         }
+
 
         private bool CheckPair()
         {
@@ -202,6 +208,34 @@ namespace Model
             }
 
             if (cards.ContainsValue(5) || cards.ContainsValue(6) || cards.ContainsValue(7))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private bool CheckFullHouse()
+        {
+            Dictionary<CardQuality, int> cards = new Dictionary<CardQuality, int>();
+            foreach (var card in allCards)
+            {
+                if (card != null)
+                {
+                    if (!cards.ContainsKey(card.quality))
+                    {
+                        cards.Add(card.quality, 1);
+                    }
+                    else
+                    {
+                        cards[card.quality]++;
+                    }
+                }
+            }
+
+            if (cards.ContainsValue(3) && cards.ContainsValue(2))
             {
                 return true;
             }

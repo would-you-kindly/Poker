@@ -17,6 +17,7 @@ namespace Model
         public Card card2;
         public int currentRate;
         public bool isPlaying; // Участвует в раздаче (не скинул карты)
+        public bool isWinner;
 
         public ServerPlayerInfo() :
             base()
@@ -28,6 +29,7 @@ namespace Model
             card2 = null;
             currentRate = 0;
             isPlaying = false;
+            isWinner = false;
         }
 
         public ServerPlayerInfo(string name, int money, string endPoint, int seat) :
