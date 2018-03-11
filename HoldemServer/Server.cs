@@ -36,12 +36,12 @@ namespace HoldemServer
         {
             players = new List<ServerPlayerInfo>();
             deck = new CardDeck();
-            game = new Game();
+            game = new Game(deck);
 
             listener = new TcpListener(Helper.port);
             clients = new List<Thread>();
 
-            queue = new MessageQueue("FormatName:MULTICAST=234.1.1.1:8001");
+            queue = new MessageQueue("FormatName:MULTICAST=234.1.1.1:8000");
             queue.Formatter = new XmlMessageFormatter(new Type[] { typeof(List<ServerPlayerInfo>) });
 
             Console.WriteLine(Dns.GetHostEntry(Dns.GetHostName()).AddressList[0].MapToIPv4());
@@ -58,9 +58,10 @@ namespace HoldemServer
                 clients[clients.Count - 1].Start();
 
                 // Начинаем новую раздачу, когда за столом окажется минимум два игрока
+                // TODO: зависает при присоединении третьего, нужно сдеать в отдельном потоке
                 if (clients.Count >= 2)
                 {
-                    Thread.Sleep(1000);
+                    Thread.Sleep(3000);
                     var involvedPlayers = game.StartNewGame(new List<ServerPlayerInfo>(players));
                     UpdatePlayersFromInvolved(involvedPlayers);
                     SendServerPlayerInfoByQueue();

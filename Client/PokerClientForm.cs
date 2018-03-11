@@ -21,7 +21,7 @@ namespace Client
         bool work = true;
 
         MessageQueue queue;
-        string multicastAddress = "234.1.1.1:8001";
+        string multicastAddress = "234.1.1.1:8000";
         string path = ".\\private$\\MulticastTest" + new Random().Next(10000);
 
         public PokerClientForm()
@@ -57,8 +57,85 @@ namespace Client
             player = new Player();
 
             // Получаем информацию об игроках на сервере
-            Thread thread = new Thread(ReceiveServerPlayerInfo);
-            thread.Start();
+            Thread threadPlayerInfo = new Thread(ReceiveServerPlayerInfo);
+            threadPlayerInfo.Start();
+
+            // Получаем карты (flop, turn, river)
+            Thread threadCards = new Thread(ReceiveCards);
+            threadCards.Start();
+        }
+
+        private void ReceiveCards()
+        {
+            int ClientHandleMailSlot;   // дескриптор мэйлслота
+            ClientHandleMailSlot = Mailslot.CreateMailslot("\\\\.\\mailslot\\ReceiveCardsMailslot", 0, Types.MAILSLOT_WAIT_FOREVER, 0);
+            Card card = new Card();     // прочитанное сообщение
+            Card prevCard = new Card(); // для проверки в случае, когда отправляется одно и то же сообщение несколько раз
+            int MailslotSize = 0;       // максимальный размер сообщения
+            int lpNextSize = 0;         // размер следующего сообщения
+            int MessageCount = 0;       // количество сообщений в мэйлслоте
+            uint realBytesReaded = 0;   // количество реально прочитанных из мэйлслота байтов
+
+            while (work)
+            {
+                Mailslot.GetMailslotInfo(ClientHandleMailSlot, MailslotSize, ref lpNextSize, ref MessageCount, 0);
+                if (MessageCount > 0)
+                {
+                    for (int i = 0; i < MessageCount; i++)
+                    {
+                        byte[] bytes = new byte[400];                       // буфер прочитанных из мэйлслота байтов
+                        Mailslot.FlushFileBuffers(ClientHandleMailSlot);    // "принудительная" запись данных, расположенные в буфере операционной системы, в файл мэйлслота
+                        Mailslot.ReadFile(ClientHandleMailSlot, bytes, 400, ref realBytesReaded, 0);      // считываем последовательность байтов из мэйлслота в буфер buff
+                        BinaryFormatter formatter = new BinaryFormatter();
+                        using (MemoryStream memory = new MemoryStream(bytes))
+                        {
+                            card = (Card)formatter.Deserialize(memory);
+                            if (card != prevCard)
+                            {
+                                prevCard = card;
+                            }
+                            else
+                            {
+                                continue;
+                            }
+                        }
+
+                        Invoke(new MethodInvoker(() =>
+                        {
+                            // Выдаем карты на flop'е
+                            if (pbFlop1.Image == null)
+                            {
+                                pbFlop1.Image = Image.FromFile("../../Images/Cards/" + card.suit.ToString() + card.quality.ToString() + ".png");
+                                return;
+                            }
+                            if (pbFlop2.Image == null)
+                            {
+                                pbFlop2.Image = Image.FromFile("../../Images/Cards/" + card.suit.ToString() + card.quality.ToString() + ".png");
+                                return;
+                            }
+                            if (pbFlop3.Image == null)
+                            {
+                                pbFlop3.Image = Image.FromFile("../../Images/Cards/" + card.suit.ToString() + card.quality.ToString() + ".png");
+                                return;
+                            }
+                            // Выдаем карты на turn'е
+                            if (pbTurn.Image == null)
+                            {
+                                pbTurn.Image = Image.FromFile("../../Images/Cards/" + card.suit.ToString() + card.quality.ToString() + ".png");
+                                return;
+                            }
+                            // Выдаем карты на river'е
+                            if (pbRiver.Image == null)
+                            {
+                                pbRiver.Image = Image.FromFile("../../Images/Cards/" + card.suit.ToString() + card.quality.ToString() + ".png");
+                                return;
+                            }
+                        }));
+
+                        Thread.Sleep(500);
+                    }
+                }
+            }
         }
 
         private void ReceiveServerPlayerInfo()
@@ -587,7 +664,7 @@ namespace Client
 
         private void btnRaise_Click(object sender, EventArgs e)
         {
-            Turn turn = player.Raise(int.Parse(tbRate.Text));
+            Turn turn = player.Raise(int.Parse(rtbRate.Text.Trim()));
             SendPlayerTurn(turn);
         }
     }
