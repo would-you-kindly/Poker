@@ -2,14 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Messaging;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace HoldemServer
 {
@@ -92,7 +89,7 @@ namespace HoldemServer
         {
             // Получаем информацию о новом подключившемся клиенте
             int seat = 0;
-            byte[] bytes = new byte[2048];
+            byte[] bytes = new byte[1024];
             tcpSocket.Receive(bytes);
             BinaryFormatter formatter = new BinaryFormatter();
             using (MemoryStream memory = new MemoryStream(bytes))
@@ -140,8 +137,7 @@ namespace HoldemServer
                 // Получаем действия игрока (ходы)
                 byte[] bytes = new byte[1024];
                 // TODO: Если закрыть последнего клиента, говорит удаленный хост принудительо разорвал соединеие
-                int count = ((Socket)socket).Receive(bytes);
-                Console.WriteLine("Readed " + count);
+                ((Socket)socket).Receive(bytes);
                 BinaryFormatter formatter = new BinaryFormatter();
                 using (MemoryStream memory = new MemoryStream(bytes))
                 {
