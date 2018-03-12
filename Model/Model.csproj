@@ -56,8 +56,5 @@
     <Compile Include="TurnType.cs" />
     <Compile Include="Types.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
