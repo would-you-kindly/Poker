@@ -41,6 +41,9 @@ namespace HoldemServer
 
             listener = new TcpListener(Helper.port);
             clients = new List<Thread>();
+            //tcpSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            //tcpSocket.ReceiveBufferSize = int.MaxValue;
+            //tcpSocket.SendBufferSize = int.MaxValue;
 
             queue = new MessageQueue("FormatName:MULTICAST=" + Helper.messageQueueAddress);
             queue.Formatter = new XmlMessageFormatter(new Type[] { typeof(List<ServerPlayerInfo>) });
@@ -129,40 +132,43 @@ namespace HoldemServer
             Console.WriteLine(tcpSocket.LocalEndPoint);
             Console.WriteLine(tcpSocket.RemoteEndPoint);
 
+            Turn turn = new Turn();
+
             // Обработка запросов клиента
             while (work)
             {
                 // Получаем действия игрока (ходы)
                 byte[] bytes = new byte[1024];
                 // TODO: Если закрыть последнего клиента, говорит удаленный хост принудительо разорвал соединеие
-                tcpSocket.Receive(bytes);
+                int count = tcpSocket.Receive(bytes);
+                Console.WriteLine("Readed " + count);
                 BinaryFormatter formatter = new BinaryFormatter();
                 using (MemoryStream memory = new MemoryStream(bytes))
                 {
-                    Turn turn = (Turn)formatter.Deserialize(memory);
-
-                    switch (turn.turnType)
-                    {
-                        case TurnType.Fold:
-                        case TurnType.Check:
-                        case TurnType.Call:
-                        case TurnType.Raise:
-                            // Получаем обновленную информацию об участвовавших в раздаче игроках
-                            var involvedPlayers = game.MakeTurn(seat, turn);
-                            UpdatePlayersFromInvolved(involvedPlayers);
-                            break;
-                        case TurnType.Exit:
-                            game.involvedPlayers.Find(p => p.seat == seat).isPlaying = false;
-                            ServerPlayerInfo info = players.Find(player => player.seat == seat);
-                            players.Remove(info);
-                            Console.WriteLine($"Player {info.name} leaves game");
-                            break;
-                        default:
-                            break;
-                    }
-
-                    SendServerPlayerInfoByQueue();
+                    turn = (Turn)formatter.Deserialize(memory);
                 }
+
+                switch (turn.turnType)
+                {
+                    case TurnType.Fold:
+                    case TurnType.Check:
+                    case TurnType.Call:
+                    case TurnType.Raise:
+                        // Получаем обновленную информацию об участвовавших в раздаче игроках
+                        var involvedPlayers = game.MakeTurn(seat, turn);
+                        UpdatePlayersFromInvolved(involvedPlayers);
+                        break;
+                    case TurnType.Exit:
+                        game.involvedPlayers.Find(p => p.seat == seat).isPlaying = false;
+                        ServerPlayerInfo info = players.Find(player => player.seat == seat);
+                        players.Remove(info);
+                        Console.WriteLine($"Player {info.name} leaves game");
+                        break;
+                    default:
+                        break;
+                }
+
+                SendServerPlayerInfoByQueue();
             }
         }
 

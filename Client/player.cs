@@ -25,6 +25,8 @@ namespace Client
             // Подключаем нового клиента к серверу
             client = new TcpClient();
             client.Connect("", Helper.port);
+            //client.Client.ReceiveBufferSize = int.MaxValue;
+            //client.Client.SendBufferSize = int.MaxValue;
 
             // Отправляем на сервер информацию о себе
             info = new PlayerInfo("sdf", new Random().Next(1000), client.Client.LocalEndPoint.ToString());

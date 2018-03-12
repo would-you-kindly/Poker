@@ -763,14 +763,15 @@ namespace Client
             {
                 formatter.Serialize(memory, turn);
                 Stream stream = player.client.GetStream();
+                //MessageBox.Show("CanWrite " + stream.CanWrite);
+                //MessageBox.Show("CanTimeout " + stream.CanTimeout);
+                //MessageBox.Show("CanSeek " + stream.CanSeek);
+                //MessageBox.Show("CanRead " + stream.CanRead);
                 byte[] bytes = memory.ToArray();
-                stream.Write(bytes, 0, bytes.Length);
+                //stream.Write(bytes, 0, bytes.Length);
+                
+                player.client.Client.Send(bytes);
             }
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void btnFold_Click(object sender, EventArgs e)
