@@ -769,7 +769,7 @@ namespace Client
                 //MessageBox.Show("CanRead " + stream.CanRead);
                 byte[] bytes = memory.ToArray();
                 //stream.Write(bytes, 0, bytes.Length);
-                
+
                 player.client.Client.Send(bytes);
             }
         }

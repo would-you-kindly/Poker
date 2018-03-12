@@ -59,7 +59,7 @@ namespace HoldemServer
                 // Ждем подключения нового клиента
                 tcpSocket = listener.AcceptSocket();
                 clients.Add(new Thread(HandleClient));
-                clients[clients.Count - 1].Start();
+                clients[clients.Count - 1].Start(tcpSocket);
 
                 // Начинаем новую раздачу, когда за столом окажется минимум два игрока
                 // TODO: зависает при присоединении третьего, нужно сдеать в отдельном потоке
@@ -92,7 +92,7 @@ namespace HoldemServer
         {
             // Получаем информацию о новом подключившемся клиенте
             int seat = 0;
-            byte[] bytes = new byte[1024];
+            byte[] bytes = new byte[2048];
             tcpSocket.Receive(bytes);
             BinaryFormatter formatter = new BinaryFormatter();
             using (MemoryStream memory = new MemoryStream(bytes))
@@ -121,7 +121,7 @@ namespace HoldemServer
             return 0;
         }
 
-        private void HandleClient()
+        private void HandleClient(object socket)
         {
             // Присоединение нового клиента
             int seat = ReceivePlayerInfo();
@@ -140,7 +140,7 @@ namespace HoldemServer
                 // Получаем действия игрока (ходы)
                 byte[] bytes = new byte[1024];
                 // TODO: Если закрыть последнего клиента, говорит удаленный хост принудительо разорвал соединеие
-                int count = tcpSocket.Receive(bytes);
+                int count = ((Socket)socket).Receive(bytes);
                 Console.WriteLine("Readed " + count);
                 BinaryFormatter formatter = new BinaryFormatter();
                 using (MemoryStream memory = new MemoryStream(bytes))
