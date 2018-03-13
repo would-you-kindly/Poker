@@ -75,7 +75,9 @@ namespace Model
             this.involvedPlayers = involvedPlayers;
             involvedPlayers[(diller + 0) % involvedPlayers.Count].diller = true;
             involvedPlayers[(diller + 1) % involvedPlayers.Count].currentRate = littleBlind;
+            involvedPlayers[(diller + 1) % involvedPlayers.Count].money -= littleBlind;
             involvedPlayers[(diller + 2) % involvedPlayers.Count].currentRate = bigBlind;
+            involvedPlayers[(diller + 2) % involvedPlayers.Count].money -= bigBlind;
             involvedPlayers[(diller + 3) % involvedPlayers.Count].yourMove = true;
             diller = (diller + 1) % involvedPlayers.Count;
 
@@ -141,6 +143,10 @@ namespace Model
             {
                 cardsOnTable[i] = null;
             }
+            foreach (var player in involvedPlayers)
+            {
+                player.currentRate = 0;
+            }
             SendGameEnd();
             //Mailslot.CloseHandle(mailslotHandle);
         }
@@ -151,11 +157,7 @@ namespace Model
             // Проверяем равенство ставок у еще играющих игроков
             for (int i = 0; i < involvedPlayers.Count - 1; i++)
             {
-                if (!involvedPlayers[i].isPlaying)
-                {
-                    continue;
-                }
-                if (involvedPlayers[i].currentRate != involvedPlayers[i + 1].currentRate)
+                if (involvedPlayers[i].isPlaying && involvedPlayers[i].currentRate != involvedPlayers[i + 1].currentRate)
                 {
                     return false;
                 }
@@ -199,12 +201,14 @@ namespace Model
                     involvedPlayers[playerIndex].yourMove = true;
                     break;
                 case TurnType.Call:
-                    // Вычитаем ставку со счета игрока
                     if (biggestRate == 0)
                     {
                         biggestRate = bigBlind;
                     }
+                    // Вычитаем ставку со счета игрока
                     involvedPlayers[playerIndex].money -= (biggestRate - involvedPlayers[playerIndex].currentRate);
+                    // Пересчитываем банк
+                    bank += (biggestRate - involvedPlayers[playerIndex].currentRate);
                     // Сравниваем ставку с наибольшей ставкой на столе
                     involvedPlayers[playerIndex].currentRate = biggestRate;
                     // Передаем ход следующему все еще играющему игроку игроку
@@ -220,6 +224,8 @@ namespace Model
                     biggestRate = turn.money.Value;
                     // Вычитаем ставку со счета игрока
                     involvedPlayers[playerIndex].money -= (biggestRate - involvedPlayers[playerIndex].currentRate);
+                    // Пересчитываем банк
+                    bank += (biggestRate - involvedPlayers[playerIndex].currentRate);
                     // Сравниваем ставку с наибольшей ставкой на столе
                     involvedPlayers[playerIndex].currentRate = biggestRate;
                     // Передаем ход следующему все еще играющему игроку игроку
@@ -261,21 +267,30 @@ namespace Model
                         // Ничего не делаем
                         break;
                     case GameState.Flop:
-                        // Считаем все ставки (банк)
-                        ComputeRates();
                         // Обнуляем наибольшую ставку
                         biggestRate = 0;
+                        // Обнуляем ставки игроков
+                        foreach (var player in involvedPlayers.Where(p => p.isPlaying))
+                        {
+                            player.currentRate = 0;
+                        }
                         // Раздаем первые три карты (flop)
                         GiveFlop();
                         break;
                     case GameState.Turn:
-                        ComputeRates();
                         biggestRate = 0;
+                        foreach (var player in involvedPlayers.Where(p => p.isPlaying))
+                        {
+                            player.currentRate = 0;
+                        }
                         GiveTurn();
                         break;
                     case GameState.River:
-                        ComputeRates();
                         biggestRate = 0;
+                        foreach (var player in involvedPlayers.Where(p => p.isPlaying))
+                        {
+                            player.currentRate = 0;
+                        }
                         GiveRiver();
                         break;
                     case GameState.Count:
@@ -297,6 +312,7 @@ namespace Model
             player.isWinner = true;
             player.money += bank;
             Console.WriteLine($"Player {player.name} wins and takes {bank}");
+            EndGame();
         }
 
         private int FindWinner()
@@ -311,7 +327,7 @@ namespace Model
             }
 
             var maxComb = combinationsWeights.Values.Max();
-            int winner = combinationsWeights.Where(p =>p.Value == maxComb).First().Key;
+            int winner = combinationsWeights.Where(p => p.Value == maxComb).First().Key;
 
             return winner;
         }
@@ -429,7 +445,7 @@ namespace Model
             }
         }
 
-        private void ComputeRates()
+        private void ComputeBank()
         {
             foreach (var player in involvedPlayers)
             {

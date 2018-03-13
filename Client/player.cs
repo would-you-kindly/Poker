@@ -23,7 +23,7 @@ namespace Client
             //client.Client.SendBufferSize = int.MaxValue;
 
             // Отправляем на сервер информацию о себе
-            info = new PlayerInfo("sdf", new Random().Next(1000), client.Client.LocalEndPoint.ToString());
+            info = new PlayerInfo(Helper.GetName(), 1000, client.Client.LocalEndPoint.ToString());
             SendPlayerInfo();
         }
 
