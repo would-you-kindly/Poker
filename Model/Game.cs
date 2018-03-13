@@ -248,7 +248,7 @@ namespace Model
             if (ChechRatesFinished())
             {
                 // Переводим игру в следующее состояние
-                state = (GameState)((int)(state + 1) % (int)GameState.Count);
+                state++;
 
                 foreach (var player in involvedPlayers)
                 {
@@ -305,12 +305,13 @@ namespace Model
             // Ищем максимальную комбинаю среди игроков, которые еще не скинули карты
             foreach (var player in involvedPlayers.Where(p => p.isPlaying))
             {
-                combinationsWeights.Add(player.seat, new Combination(player.card1, player.card2,
-                    cardsOnTable[0], cardsOnTable[1], cardsOnTable[2], cardsOnTable[3], cardsOnTable[4]).ComputeWeight());
+                Combination comb = new Combination(player.card1, player.card2,
+                    cardsOnTable[0], cardsOnTable[1], cardsOnTable[2], cardsOnTable[3], cardsOnTable[4]);
+                combinationsWeights.Add(player.seat, comb.ComputeWeight());
             }
 
-            var pair = combinationsWeights.Max();
-            int winner = pair.Key;
+            var maxComb = combinationsWeights.Values.Max();
+            int winner = combinationsWeights.Where(p =>p.Value == maxComb).First().Key;
 
             return winner;
         }

@@ -76,7 +76,7 @@ namespace HoldemServer
             {
                 if (clients.Count >= 2 && !game.playing)
                 {
-                    Thread.Sleep(2000);
+                    Thread.Sleep(5000);
 
                     var involvedPlayers = game.StartNewGame(new List<ServerPlayerInfo>(players));
                     UpdatePlayersFromInvolved(involvedPlayers);
@@ -137,7 +137,18 @@ namespace HoldemServer
                 // Получаем действия игрока (ходы)
                 byte[] bytes = new byte[1024];
                 // TODO: Если закрыть последнего клиента, говорит удаленный хост принудительо разорвал соединеие
-                ((Socket)socket).Receive(bytes);
+                if (((Socket)socket).Connected)
+                {
+                    try
+                    {
+                        ((Socket)socket).Receive(bytes);
+                    }
+                    catch (Exception exc)
+                    {
+                        ((Socket)socket).Close();
+                        return;
+                    }
+                }
                 BinaryFormatter formatter = new BinaryFormatter();
                 using (MemoryStream memory = new MemoryStream(bytes))
                 {
@@ -156,6 +167,9 @@ namespace HoldemServer
                         break;
                     case TurnType.Exit:
                         game.involvedPlayers.Find(p => p.seat == seat).isPlaying = false;
+                        // Говорим, что игрок, который ушел, скинул карты
+                        var involvedPlayers2 = game.MakeTurn(seat, new Turn(TurnType.Fold));
+                        UpdatePlayersFromInvolved(involvedPlayers2);
                         ServerPlayerInfo info = players.Find(player => player.seat == seat);
                         players.Remove(info);
                         Console.WriteLine($"Player {info.name} leaves game");

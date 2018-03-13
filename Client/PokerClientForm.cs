@@ -16,7 +16,7 @@ namespace Client
         bool work = true;
 
         MessageQueue queue;
-        string path = ".\\private$\\MulticastTest" + new Random().Next(10000);
+        string path = ".\\private$\\MulticastTest";
 
         public PokerClientForm()
         {
@@ -31,6 +31,7 @@ namespace Client
 
         private void InitMessageQueue()
         {
+            path += new Random().Next(100000).ToString();
             if (MessageQueue.Exists(path))
             {
                 // Здесь создается только переменная в данной программе
